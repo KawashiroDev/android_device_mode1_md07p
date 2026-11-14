@@ -602,6 +602,14 @@ on post-fs
 
 on property:sys.boot_completed=1
     stop logger
+# Notification LED (aw2016): hide the "blink" node from the Lineage light HAL. The driver applies
+# blink=0 asynchronously, after the HAL's brightness write, and leaves the channel in hardware
+# pattern mode, so solid colours came out as a ~2 ms flash. Without it the HAL uses brightness for
+# solid light and the timer trigger for flashing, like the stock MediaTek lights HAL.
+on early-boot
+    chmod 0200 /sys/class/leds/red/blink
+    chmod 0200 /sys/class/leds/green/blink
+    chmod 0200 /sys/class/leds/blue/blink
 
 service logger /system/bin/logcat -b all -D -f /metadata/boot_log.txt
     class main

@@ -442,4 +442,12 @@
     <item name="config_screenBrightnessSettingMinimumFloat" format="float" type="dimen">0.122</item>
     <item name="config_screenBrightnessDimFloat" format="float" type="dimen">0.122</item>
 
+    <!-- Notification LED: aw2016 RGB LED (red/green/blue in /sys/class/leds) -->
+    <bool name="config_intrusiveNotificationLed">true</bool>
+    <bool name="config_multiColorNotificationLed">true</bool>
+    <!-- Fingerprint: HIDL HAL sensor declaration "id:modality:strength" (2 = fingerprint,
+         15 = BIOMETRIC_STRONG), same as stock. Without it FingerprintService finds no sensors. -->
+    <string-array name="config_biometric_sensors" translatable="false">
+        <item>0:2:15</item>
+    </string-array>
 </resources>
