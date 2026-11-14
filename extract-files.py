@@ -54,6 +54,8 @@ blob_fixups: blob_fixups_user_type = {
         .replace_needed('android.hardware.gnss-V1-ndk_platform.so', 'android.hardware.gnss-V1-ndk.so'),
     'vendor/bin/mnld': blob_fixup()
         .add_needed('libshim_sensors.so'),
+    'vendor/lib64/hw/fingerprint.default.so': blob_fixup()
+        .fix_soname(),
     'vendor/lib64/mt6789/libmnl.so': blob_fixup()
         .add_needed('libcutils.so'),
     'vendor/bin/hw/mtkfusionrild': blob_fixup()
