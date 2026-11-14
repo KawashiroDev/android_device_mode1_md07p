@@ -267,3 +267,7 @@ zygote.critical_window.minute=10
 
 # Gralloc
 persist.log.tag.gralloc4=S
+
+# FM Radio
+ro.vendor.fm.platform=mt6631_6635
+
