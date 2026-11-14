@@ -52,6 +52,10 @@ blob_fixups: blob_fixups_user_type = {
         'vendor/lib64/hw/android.hardware.gnss-impl-mediatek.so',
     ): blob_fixup()
         .replace_needed('android.hardware.gnss-V1-ndk_platform.so', 'android.hardware.gnss-V1-ndk.so'),
+    'vendor/etc/init/vibrator-mtk-default.rc': blob_fixup()
+        .regex_replace('android.hardware.vibrator-service.mediatek', 'android.hardware.vibrator-service.mediatek-awinic'),
+    'vendor/bin/hw/android.hardware.vibrator-service.mediatek-awinic': blob_fixup()
+        .replace_needed('android.hardware.vibrator-V2-ndk_platform.so', 'android.hardware.vibrator-V2-ndk.so'),
     'vendor/bin/mnld': blob_fixup()
         .add_needed('libshim_sensors.so'),
     'vendor/lib64/hw/fingerprint.default.so': blob_fixup()
