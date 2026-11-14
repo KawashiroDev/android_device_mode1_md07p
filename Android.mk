@@ -23,10 +23,12 @@ VENDOR_PLATFORM_LINKS := \
 	$(TARGET_OUT_VENDOR)/lib/libvpudv3a_vcodec.so \
 	$(TARGET_OUT_VENDOR)/lib64/arm.graphics-V1-ndk_platform.so \
 	$(TARGET_OUT_VENDOR)/lib64/egl/libGLES_mali.so \
-	$(TARGET_OUT_VENDOR)/lib64/gc08a3_mipi_raw_IdxMgr.so \
-	$(TARGET_OUT_VENDOR)/lib64/gc08a3_mipi_raw_tuning.so \
-	$(TARGET_OUT_VENDOR)/lib64/hi846_mipi_raw_IdxMgr.so \
-	$(TARGET_OUT_VENDOR)/lib64/hi846_mipi_raw_tuning.so \
+	$(TARGET_OUT_VENDOR)/lib64/gc02m1_mipi_raw_IdxMgr.so \
+	$(TARGET_OUT_VENDOR)/lib64/gc02m1_mipi_raw_tuning.so \
+	$(TARGET_OUT_VENDOR)/lib64/imx576_mipi_raw_IdxMgr.so \
+	$(TARGET_OUT_VENDOR)/lib64/imx576_mipi_raw_tuning.so \
+	$(TARGET_OUT_VENDOR)/lib64/imx682_mipi_raw_IdxMgr.so \
+	$(TARGET_OUT_VENDOR)/lib64/imx682_mipi_raw_tuning.so \
 	$(TARGET_OUT_VENDOR)/lib64/hw/android.hardware.camera.provider@2.6-impl-mediatek.so \
 	$(TARGET_OUT_VENDOR)/lib64/hw/android.hardware.graphics.allocator@4.0-impl-mediatek.so \
 	$(TARGET_OUT_VENDOR)/lib64/hw/android.hardware.graphics.mapper@4.0-impl-mediatek.so \
@@ -60,20 +62,66 @@ VENDOR_PLATFORM_LINKS := \
 	$(TARGET_OUT_VENDOR)/lib64/lib3a.n3d3a.so \
 	$(TARGET_OUT_VENDOR)/lib64/lib3a.sensors.color.so \
 	$(TARGET_OUT_VENDOR)/lib64/lib3a.sensors.flicker.so \
-	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc08a3mipiraw_Face_Capture.so \
-	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc08a3mipiraw_Scene_Capture.so \
-	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc08a3mipiraw_Scene_Capture_4cell.so \
-	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc08a3mipiraw_Scene_Preview.so \
-	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc08a3mipiraw_Scene_Preview_4k.so \
-	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc08a3mipiraw_Video_1080.so \
-	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc08a3mipiraw_Video_4k.so \
-	$(TARGET_OUT_VENDOR)/lib64/libCamera_hi846mipiraw_Face_Capture.so \
-	$(TARGET_OUT_VENDOR)/lib64/libCamera_hi846mipiraw_Scene_Capture.so \
-	$(TARGET_OUT_VENDOR)/lib64/libCamera_hi846mipiraw_Scene_Capture_4cell.so \
-	$(TARGET_OUT_VENDOR)/lib64/libCamera_hi846mipiraw_Scene_Preview.so \
-	$(TARGET_OUT_VENDOR)/lib64/libCamera_hi846mipiraw_Scene_Preview_4k.so \
-	$(TARGET_OUT_VENDOR)/lib64/libCamera_hi846mipiraw_Video_1080.so \
-	$(TARGET_OUT_VENDOR)/lib64/libCamera_hi846mipiraw_Video_4k.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc02m1mipiraw_E2EHDR_Preview.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc02m1mipiraw_E2EHDR_Video.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc02m1mipiraw_Face_Capture.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc02m1mipiraw_Flash_Capture.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc02m1mipiraw_HDR_Capture.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc02m1mipiraw_HDR_Preview.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc02m1mipiraw_HDR_Reconfig_Preview.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc02m1mipiraw_HDR_Reconfig_Video.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc02m1mipiraw_HDR_Video.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc02m1mipiraw_N3D_Capture.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc02m1mipiraw_N3D_Preview.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc02m1mipiraw_N3D_Video.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc02m1mipiraw_P1_YUV.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc02m1mipiraw_Scene_Capture_4cell.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc02m1mipiraw_Scene_Capture.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc02m1mipiraw_Scene_Preview_4k.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc02m1mipiraw_Scene_Preview.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc02m1mipiraw_Scene_Preview_ZSD_Flash.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc02m1mipiraw_Video_1080.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_gc02m1mipiraw_Video_4k.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx576mipiraw_E2EHDR_Preview.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx576mipiraw_E2EHDR_Video.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx576mipiraw_Face_Capture.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx576mipiraw_Flash_Capture.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx576mipiraw_HDR_Capture.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx576mipiraw_HDR_Preview.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx576mipiraw_HDR_Reconfig_Preview.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx576mipiraw_HDR_Reconfig_Video.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx576mipiraw_HDR_Video.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx576mipiraw_N3D_Capture.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx576mipiraw_N3D_Preview.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx576mipiraw_N3D_Video.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx576mipiraw_P1_YUV.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx576mipiraw_Scene_Capture_4cell.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx576mipiraw_Scene_Capture.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx576mipiraw_Scene_Preview_4k.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx576mipiraw_Scene_Preview.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx576mipiraw_Scene_Preview_ZSD_Flash.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx576mipiraw_Video_1080.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx576mipiraw_Video_4k.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx682mipiraw_E2EHDR_Preview.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx682mipiraw_E2EHDR_Video.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx682mipiraw_Face_Capture.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx682mipiraw_Flash_Capture.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx682mipiraw_HDR_Capture.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx682mipiraw_HDR_Preview.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx682mipiraw_HDR_Reconfig_Preview.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx682mipiraw_HDR_Reconfig_Video.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx682mipiraw_HDR_Video.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx682mipiraw_N3D_Capture.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx682mipiraw_N3D_Preview.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx682mipiraw_N3D_Video.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx682mipiraw_P1_YUV.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx682mipiraw_Scene_Capture_4cell.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx682mipiraw_Scene_Capture.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx682mipiraw_Scene_Preview_4k.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx682mipiraw_Scene_Preview.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx682mipiraw_Scene_Preview_ZSD_Flash.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx682mipiraw_Video_1080.so \
+	$(TARGET_OUT_VENDOR)/lib64/libCamera_imx682mipiraw_Video_4k.so \
 	$(TARGET_OUT_VENDOR)/lib64/libSonyIMX230PdafLibrary.so \
 	$(TARGET_OUT_VENDOR)/lib64/libSonyIMX230PdafLibraryWrapper.so \
 	$(TARGET_OUT_VENDOR)/lib64/libSonyIMX338PdafLibrary.so \

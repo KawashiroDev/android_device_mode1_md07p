@@ -967,3 +967,11 @@ vendor/lib64/libforkexecwrap.so
 vendor/lib64/libifcutils_mtk.so
 vendor/lib64/libwifi-hal.so:vendor/lib64/libwifi-hal-mtk.so;FIX_SONAME
 vendor/lib64/vendor.mediatek.hardware.netdagent@1.0.so
+# Camera feature configs
+vendor/etc/hdr_config.yaml
+vendor/etc/hdr_isocfg.xml
+vendor/etc/mfnr_config.yaml
+vendor/etc/mfnr_config_front.yaml
+vendor/etc/mfnr_isocfg.xml
+vendor/etc/mfnr_isocfg_front.xml
+vendor/etc/sensor_feature_size.yaml
