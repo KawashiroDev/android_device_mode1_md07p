@@ -121,10 +121,13 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     vendor.lineage.health-service.default
 
-$(call soong_config_set,lineage_health,charging_control_charging_path,/sys/class/power_supply/battery/input_suspend)
-$(call soong_config_set,lineage_health,charging_control_charging_enabled,0)
-$(call soong_config_set,lineage_health,charging_control_charging_disabled,1)
-$(call soong_config_set_bool,lineage_health,charging_control_supports_bypass,false)
+# MTK charger command node: "0 0" = charge, "0 1" = stop charging (device keeps running from the
+# charger, battery current ~0, i.e. bypass). The tree's input_suspend path is Xiaomi-only and doesn't
+# exist here; mtk-master-charger/input_current_limit gets overridden by the charging algorithm.
+$(call soong_config_set,lineage_health,charging_control_charging_path,/proc/mtk_battery_cmd/current_cmd)
+$(call soong_config_set,lineage_health,charging_control_charging_enabled,0 0)
+$(call soong_config_set,lineage_health,charging_control_charging_disabled,0 1)
+$(call soong_config_set_bool,lineage_health,charging_control_supports_bypass,true)
 
 # Health
 PRODUCT_PACKAGES += \

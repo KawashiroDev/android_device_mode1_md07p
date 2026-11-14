@@ -7,3 +7,7 @@ type vendor_sysfs_displayfeature, fs_type, sysfs_type;
 # Touch gestures
 type sysfs_tp_gesture, fs_type, sysfs_type;
 
+
+# Charging control node (/proc/mtk_battery_cmd/current_cmd). sepolicy_vndr's proc_battery_cmd is
+# system_ext-private, so vendor policy gets its own type for this one file.
+type vendor_proc_battery_cmd, fs_type, proc_type;

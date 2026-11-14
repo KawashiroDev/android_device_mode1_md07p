@@ -15,3 +15,6 @@ genfscon sysfs /devices/platform/extcon_usb1 u:object_r:sysfs_extcon:s0
 
 # Graphics
 genfscon sysfs /devices/platform/soc/13000000.mali u:object_r:sysfs_gpu:s0
+
+# Charging control (longer prefix than sepolicy_vndr's /mtk_battery_cmd entry)
+genfscon proc /mtk_battery_cmd/current_cmd u:object_r:vendor_proc_battery_cmd:s0

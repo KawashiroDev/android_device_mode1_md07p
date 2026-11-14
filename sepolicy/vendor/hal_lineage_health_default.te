@@ -1,2 +1,7 @@
 rw_dir_file(hal_lineage_health_default, sysfs_batteryinfo)
 rw_dir_file(hal_lineage_health_default, sysfs_power_supply)
+
+# Charging control: /proc/mtk_battery_cmd/current_cmd
+allow hal_lineage_health_default vendor_proc_battery_cmd:file rw_file_perms;
+# ...and search on its parent dir, which keeps sepolicy_vndr's system_ext-private label
+allow hal_lineage_health_default proc_type:dir search;
