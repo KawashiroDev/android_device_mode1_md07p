@@ -16,6 +16,7 @@ apply() {  # <project dir> <patch>
 }
 
 apply packages/apps/FMRadio "$here/packages_apps_FMRadio-0001-band-from-props.patch"
+apply frameworks/opt/telephony "$here/frameworks_opt_telephony-0001-trust-IMS-voice-over-Wi-Fi-for-service-state.patch"
 apply prebuilts/openeuicc-deps "$here/prebuilts_openeuicc-deps-0001-build-against-sdk-current.patch"
 # OpenEUICC's submodules (lpac, cJSON) are not always fetched by repo sync-s
 git -C "$top/packages/apps/OpenEUICC" submodule update --init --depth 1

@@ -1,0 +1,90 @@
+diff --git a/src/java/com/android/internal/telephony/GsmCdmaPhone.java b/src/java/com/android/internal/telephony/GsmCdmaPhone.java
+index aef5316..2fdc5a1 100644
+--- a/src/java/com/android/internal/telephony/GsmCdmaPhone.java
++++ b/src/java/com/android/internal/telephony/GsmCdmaPhone.java
+@@ -602,9 +602,38 @@ public class GsmCdmaPhone extends Phone {
+     public ServiceState getServiceState() {
+         ServiceState baseSs = mSST != null ? mSST.getServiceState() : new ServiceState();
+         ServiceState imsSs = mImsPhone != null ? mImsPhone.getServiceState() : new ServiceState();
++        // Modems that run the ePDG tunnel themselves (MediaTek) report no IWLAN data
++        // registration to the framework, so an IMS voice route over Wi-Fi would be ignored
++        // (e.g. outgoing calls are rejected in airplane mode). Trust IMS in that case, and
++        // report the IWLAN registration a framework-managed ePDG would have (the lock screen
++        // and carrier text look for it).
++        if (baseSs.getState() != ServiceState.STATE_IN_SERVICE && isModemVowifiActive()) {
++            ServiceState ss = mergeVoiceServiceStates(baseSs, imsSs,
++                    ServiceState.STATE_IN_SERVICE);
++            if (ss == baseSs) ss = new ServiceState(baseSs);
++            ss.addNetworkRegistrationInfo(new android.telephony.NetworkRegistrationInfo.Builder()
++                    .setDomain(android.telephony.NetworkRegistrationInfo.DOMAIN_PS)
++                    .setTransportType(android.telephony.AccessNetworkConstants.TRANSPORT_TYPE_WLAN)
++                    .setRegistrationState(
++                            android.telephony.NetworkRegistrationInfo.REGISTRATION_STATE_HOME)
++                    .setAccessNetworkTechnology(TelephonyManager.NETWORK_TYPE_IWLAN)
++                    .build());
++            ss.setIwlanPreferred(true);
++            ss.setDataRegState(ServiceState.STATE_IN_SERVICE);
++            return ss;
++        }
+         return mergeVoiceServiceStates(baseSs, imsSs, mTelecomVoiceServiceStateOverride);
+     }
+ 
++    /**
++     * @return {@code true} if IMS is registered over Wi-Fi with voice available on a modem that
++     * runs the ePDG itself ({@code ro.telephony.vowifi_voice_service}).
++     */
++    public boolean isModemVowifiActive() {
++        return mImsPhone != null && mImsPhone.isWifiCallingEnabled()
++                && SystemProperties.getBoolean("ro.telephony.vowifi_voice_service", false);
++    }
++
+     @Override
+     public void setVoiceServiceStateOverride(boolean hasService) {
+         int newOverride =
+diff --git a/src/java/com/android/internal/telephony/ServiceStateTracker.java b/src/java/com/android/internal/telephony/ServiceStateTracker.java
+index cef0ddf..a2a3914 100644
+--- a/src/java/com/android/internal/telephony/ServiceStateTracker.java
++++ b/src/java/com/android/internal/telephony/ServiceStateTracker.java
+@@ -1490,6 +1490,12 @@ public class ServiceStateTracker extends Handler {
+                 if (DBG) log("EVENT_IMS_CAPABILITY_CHANGED");
+                 updateCarrierDisplayName();
+                 mImsCapabilityChangedRegistrants.notifyRegistrants();
++                // Voice over Wi-Fi changes the merged service state on modem-run ePDG devices
++                // (see GsmCdmaPhone#getServiceState()).
++                if (mSS.getState() != ServiceState.STATE_IN_SERVICE
++                        && SystemProperties.getBoolean("ro.telephony.vowifi_voice_service", false)) {
++                    mPhone.notifyServiceStateChanged(mPhone.getServiceState());
++                }
+                 break;
+ 
+             case EVENT_IMS_SERVICE_STATE_CHANGED:
+@@ -2220,10 +2226,13 @@ public class ServiceStateTracker extends Handler {
+         log("updateCarrierDisplayName: isWifiCallingEnabled=" + isWifiCallingEnabled
+                         + " combinedRegState=" + ServiceState.rilServiceStateToString(
+                                 combinedRegState) + " " + mSS);
++        // See GsmCdmaPhone#getServiceState(): with a modem-run ePDG there is no IWLAN data
++        // registration, so rely on IMS being registered over Wi-Fi.
++        boolean isModemVowifi = mPhone.isModemVowifiActive();
+         if (isWifiCallingEnabled
+                 && mPhone.isImsRegistered()
+-                && (combinedRegState == ServiceState.STATE_IN_SERVICE
+-                && mSS.getDataNetworkType() == TelephonyManager.NETWORK_TYPE_IWLAN)) {
++                && (isModemVowifi || (combinedRegState == ServiceState.STATE_IN_SERVICE
++                && mSS.getDataNetworkType() == TelephonyManager.NETWORK_TYPE_IWLAN))) {
+             // In Wi-Fi Calling mode (connected to WiFi and WFC enabled),
+             // show SPN or PLMN + WiFi Calling
+             //
+@@ -2371,6 +2380,13 @@ public class ServiceStateTracker extends Handler {
+                 && ((rule & CARRIER_NAME_DISPLAY_BITMASK_SHOW_SPN)
+                 == CARRIER_NAME_DISPLAY_BITMASK_SHOW_SPN);
+         if (DBG) log("updateCarrierDisplayName: rawSpn = " + spn);
++        if (isModemVowifi && TextUtils.isEmpty(spn) && TextUtils.isEmpty(plmn)) {
++            // On Wi-Fi calling with the radio off (airplane mode) and no SPN on the SIM there is
++            // no network name; use the carrier name resolved from the SIM instead.
++            plmn = mPhone.getCarrierName();
++            showPlmn = !TextUtils.isEmpty(plmn);
++            if (DBG) log("updateCarrierDisplayName: Wi-Fi calling, carrier name plmn=" + plmn);
++        }
+         if (!TextUtils.isEmpty(satellitePlmn)) {
+             plmn = satellitePlmn;
+             showPlmn = true;

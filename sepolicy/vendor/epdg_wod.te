@@ -1,2 +1,2 @@
-# Wi-Fi calling (ePDG): set the tunnel interface address
-allowxperm epdg_wod self:udp_socket ioctl SIOCSIFADDR;
+# Wi-Fi calling (ePDG): set up the tunnel interface (address, up/down, MTU)
+allowxperm epdg_wod self:udp_socket ioctl { SIOCSIFADDR SIOCSIFFLAGS SIOCSIFMTU };

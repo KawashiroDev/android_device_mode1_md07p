@@ -1,0 +1,5 @@
+# Wi-Fi calling (strongSwan charon): MediaTek's policy allows writing proc_net and the ipsec
+# config files but not opening proc_net (/proc/sys/net/core/xfrm_acq_expires) or chmod-ing
+# its own pid file.
+allow ipsec proc_net:file { open write };
+allow ipsec wod_ipsec_conf_file:file setattr;
