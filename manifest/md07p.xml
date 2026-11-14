@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Local manifest for the Mode1 Pocket (MD-07P) on LineageOS 23.2.
+  Copy to .repo/local_manifests/md07p.xml, then `repo sync`.
+  Replace YOUR_GITHUB_USER with the account hosting the device, kernel and vendor repos.
+-->
+<manifest>
+  <remote name="md07p" fetch="https://github.com/YOUR_GITHUB_USER/" />
+  <remote name="angry" fetch="https://gitea.angry.im/" />
+
+  <!-- Device -->
+  <project path="device/mode1/md07p" name="android_device_mode1_md07p" remote="md07p" revision="md07p-bringup-fixes" />
+  <project path="device/mode1/md07p-kernel" name="android_device_mode1_md07p-kernel" remote="md07p" revision="lineage-23.2" />
+  <project path="vendor/mode1/md07p" name="android_vendor_mode1_md07p" remote="md07p" revision="lineage-23.2" />
+
+  <!-- MediaTek common -->
+  <project path="hardware/mediatek" name="LineageOS/android_hardware_mediatek" remote="github" revision="lineage-23.2" />
+  <project path="device/mediatek/sepolicy_vndr" name="LineageOS/android_device_mediatek_sepolicy_vndr" remote="github" revision="lineage-23.2" />
+
+  <!-- eSIM: OpenEUICC (pinned to the tested commits; needs patches/apply.sh) -->
+  <project path="packages/apps/OpenEUICC" name="PeterCxy/OpenEUICC" remote="angry" revision="b79e03bbf42f4d69b9d9dd21cd6132bb1b9314d7" sync-s="true" />
+  <project path="prebuilts/openeuicc-deps" name="PeterCxy/android_prebuilts_openeuicc-deps" remote="angry" revision="540216793010cabc49782bd01844cd8dd28a4c7c" />
+</manifest>
