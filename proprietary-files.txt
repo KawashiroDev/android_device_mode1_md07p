@@ -830,7 +830,7 @@ vendor/lib64/vendor.mediatek.hardware.mtkradioex@2.0.so
 vendor/lib64/vendor.mediatek.hardware.mtkradioex@3.0.so
 
 # Radio (IMS)
-system_ext/framework/mediatek-ims-base.jar:system/framework/mediatek-ims-base.jar
+system_ext/framework/mediatek-ims-base.jar
 system_ext/framework/mediatek-ims-common.jar
 system_ext/framework/mediatek-ims-extension-plugin.jar
 system_ext/lib64/libcomutils.so

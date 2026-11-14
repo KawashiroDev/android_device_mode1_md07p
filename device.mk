@@ -176,6 +176,9 @@ PRODUCT_PACKAGES += \
 
 # Radio
 $(call inherit-product, hardware/lineage/compat/frameworks/compat.mk)
+# MediaTek RIL/IMS (mtkfusionrild + MediaTek ImsService), not AOSP rild
+ENABLE_VENDOR_RIL_SERVICE := true
+
 $(call inherit-product, hardware/mediatek/frameworks/mediatek-frameworks.mk)
 
 PRODUCT_PACKAGES += \
@@ -300,6 +303,11 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.midi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.midi.xml \
     frameworks/native/data/etc/android.software.verified_boot.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.verified_boot.xml \
     frameworks/native/data/etc/handheld_core_hardware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/handheld_core_hardware.xml
+
+# Overlays (MediaTek common). TARGET_BOARD_PLATFORM is also needed here, not just in BoardConfig,
+# so mssi.mk leaves out the 5G / 6 GHz / multi-STA / CONNAC3 overlays that don't apply to MT6789.
+TARGET_BOARD_PLATFORM := mt6789
+$(call inherit-product, hardware/mediatek/overlay/mssi.mk)
 
 # Overlays
 PRODUCT_PACKAGES += \

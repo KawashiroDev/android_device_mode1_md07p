@@ -1,0 +1,19 @@
+From: MD-07P bringup
+Subject: [PATCH] ImsService: Use mediatek-ims-base as a shared library
+
+Stock loads mediatek-ims-base.jar from the boot classpath; LineageOS does not, so
+MtkImsService (which implements IMtkImsService etc. from that jar) fails to resolve and
+the app crash-loops. Declare the library instead.
+---
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index 74d883f..aac7846 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -48,6 +48,7 @@
+     <permission android:name="androidx.legacy.coreutils.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" android:protectionLevel="signature"/>
+     <uses-permission android:name="androidx.legacy.coreutils.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"/>
+     <application android:allowBackup="false" android:appComponentFactory="androidx.core.app.CoreComponentFactory" android:directBootAware="true" android:extractNativeLibs="false" android:label="ImsApp" android:name="com.mediatek.ims.ImsApp" android:persistent="true" android:usesNonSdkApi="true">
++        <uses-library android:name="mediatek-ims-base" android:required="true"/>
+         <uses-library android:name="com.mediatek.ims.oemplugin" android:required="false"/>
+         <uses-library android:name="com.mediatek.ims.plugin" android:required="false"/>
+         <service android:exported="true" android:name="com.mediatek.ims.MtkDynamicImsService" android:permission="android.permission.BIND_IMS_SERVICE">
