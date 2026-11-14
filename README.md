@@ -12,22 +12,24 @@ configuration. SELinux is enforcing.
 | --- | --- |
 | Display, touch, brightness, 60/90/120 Hz | Works |
 | Wi-Fi, Bluetooth (incl. A2DP) | Works |
-| Modem | Boots, IMEI reads; calls/SMS/data **untested** (no SIM yet). VoLTE/IMS not working (see below) |
-| eSIM | OpenEUICC sees the eUICC; adding a profile **untested** |
+| Calls, SMS, mobile data | Works (tested on EE UK): earpiece, speakerphone, in-call proximity |
+| VoLTE (HD calls), Wi-Fi calling | Works (EE UK), incl. Wi-Fi calls in airplane mode. Video calling not working yet |
+| eSIM | Works via OpenEUICC (profile downloaded and used for data) |
 | Rear/front camera, photo and video | Works. Leave Aperture's video stabilisation off: MediaTek EIS makes video exposure step/flicker |
 | FM radio, 76.0-108.0 MHz | Works; needs a wired headset as antenna |
 | GPS | HAL and mnld run; outdoor fix **untested** |
 | Fingerprint (MicroArray) | Works |
-| Sensors, autorotate | Works; in-call proximity **untested** |
+| Sensors, autorotate | Works |
 | Notification/battery LED | Works |
 | Vibration (Awinic haptics) | Works |
 | Charging control incl. bypass | Works. Status still reads "Charging" while paused (MediaTek driver) |
 
 ### Known issues
 
-- **IMS / VoLTE**: MediaTek's `ImsService` expects stock's `mediatek-ims-*` and
-  `mediatek-telephony-base` jars on the boot classpath and crash-loops without them. Until
-  that is fixed, disable it after flashing: `adb shell pm disable com.mediatek.ims` (root).
+- AOSP's carrier configs usually don't mark VoLTE or Wi-Fi calling as available (Google's
+  CarrierSettings normally does). `overlays/CarrierConfigOverlay` turns both on for every
+  carrier on this device; carriers without them simply reject IMS registration and calls
+  use 2G/3G.
 
 ## Building
 
@@ -54,6 +56,15 @@ a directory laid out like the device's partitions (`system/`, `vendor/`, `system
 
 - `packages_apps_FMRadio-0001-band-from-props.patch`: FMRadio reads its band from
   `ro.fm.low_band`/`ro.fm.high_band` instead of a hard-coded 87.5 MHz floor.
+- `ImsService/` (applied by `extract-files.py`, not `apply.sh`): MediaTek's IMS app uses
+  `mediatek-ims-base` as a shared library instead of expecting it on the boot classpath,
+  and its runtime-registered receivers are marked exported.
+- `frameworks_opt_telephony-0001-trust-IMS-voice-over-Wi-Fi-for-service-state.patch`: the
+  MediaTek modem runs the Wi-Fi calling (ePDG) tunnel itself and reports no IWLAN registration,
+  so Android ignored IMS over Wi-Fi when deciding whether there is voice service. With
+  `ro.telephony.vowifi_voice_service=true`, IMS voice over Wi-Fi counts as service and is
+  reported as an IWLAN registration (outgoing Wi-Fi calls in airplane mode, lock screen, and
+  the "<carrier> Wi-Fi Calling" network name, falling back to the SIM's carrier name).
 - `prebuilts_openeuicc-deps-0001-build-against-sdk-current.patch`: OpenEUICC's dependency
   modules target the next Android SDK; build them against `current`.
 
