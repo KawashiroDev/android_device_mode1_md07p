@@ -597,11 +597,9 @@ on property:persist.vendor.mediatek.fg.log.enable=1
     write /dev/gauge/FG_daemon_log_level 7
 
 # Add logger service for debugging
-on post-fs
-    start logger
+# (Removed the tree's debug "logger" service: it ran logcat -f /metadata/boot_log.txt until
+# boot_completed, so a bootloop filled the 24 MB /metadata partition and broke OTA sideload.)
 
-on property:sys.boot_completed=1
-    stop logger
 # Notification LED (aw2016): hide the "blink" node from the Lineage light HAL. The driver applies
 # blink=0 asynchronously, after the HAL's brightness write, and leaves the channel in hardware
 # pattern mode, so solid colours came out as a ~2 ms flash. Without it the HAL uses brightness for
@@ -611,10 +609,6 @@ on early-boot
     chmod 0200 /sys/class/leds/green/blink
     chmod 0200 /sys/class/leds/blue/blink
 
-service logger /system/bin/logcat -b all -D -f /metadata/boot_log.txt
-    class main
-    user root
-    group root system
 # Vibrator (Awinic aw862xx): let the stock HAL (runs as system) drive it, as stock does.
 # (Stock also chmods the directory itself to 0666; that's left out because it would drop the
 # directory's search bit if anything ever followed the /sys/class/leds symlink.)
