@@ -435,4 +435,11 @@
          * The device must be provisioned with HDCP keys (for protected content).
     -->
     <bool name="config_enableWifiDisplay">true</bool>
+
+    <!-- Backlight: the MTK driver clamps every level below 32/255 to the same panel minimum
+         (hw level 191), so start the slider and dim level there; otherwise the lower half of
+         the slider does nothing. Float = (32 - 1) / 254. -->
+    <item name="config_screenBrightnessSettingMinimumFloat" format="float" type="dimen">0.122</item>
+    <item name="config_screenBrightnessDimFloat" format="float" type="dimen">0.122</item>
+
 </resources>
