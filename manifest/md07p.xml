@@ -2,10 +2,9 @@
 <!--
   Local manifest for the Mode1 Pocket (MD-07P) on LineageOS 23.2.
   Copy to .repo/local_manifests/md07p.xml, then `repo sync`.
-  Replace YOUR_GITHUB_USER with the account hosting the device, kernel and vendor repos.
 -->
 <manifest>
-  <remote name="md07p" fetch="https://github.com/YOUR_GITHUB_USER/" />
+  <remote name="md07p" fetch="https://github.com/KawashiroDev/" />
   <remote name="angry" fetch="https://gitea.angry.im/" />
 
   <!-- Device -->
