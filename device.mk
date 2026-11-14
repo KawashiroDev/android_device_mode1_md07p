@@ -311,6 +311,7 @@ $(call inherit-product, hardware/mediatek/overlay/mssi.mk)
 
 # Overlays
 PRODUCT_PACKAGES += \
+    CarrierConfigOverlayMD07P \
     FrameworksResOverlayMD07P \
     SettingsResOverlayMD07P \
     NcmTetheringOverlay \

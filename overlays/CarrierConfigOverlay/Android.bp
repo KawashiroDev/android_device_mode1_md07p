@@ -1,0 +1,12 @@
+//
+// SPDX-FileCopyrightText: The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
+// Replaces MssiCarrierConfigOverlay's vendor.xml (an overlay swaps the whole file), so
+// res/xml/vendor.xml is hardware/mediatek's copy plus an MD-07P block at the end.
+runtime_resource_overlay {
+    name: "CarrierConfigOverlayMD07P",
+    system_ext_specific: true,
+    aaptflags: ["--keep-raw-values"],
+}
