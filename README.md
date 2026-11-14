@@ -13,7 +13,8 @@ configuration. SELinux is enforcing.
 | Display, touch, brightness, 60/90/120 Hz | Works |
 | Wi-Fi, Bluetooth (incl. A2DP) | Works |
 | Calls, SMS, mobile data | Works (tested on EE UK): earpiece, speakerphone, in-call proximity |
-| VoLTE (HD calls), Wi-Fi calling | Works (EE UK), incl. Wi-Fi calls in airplane mode. Video calling not working yet |
+| VoLTE (HD calls), Wi-Fi calling | Works (EE UK), incl. Wi-Fi calls in airplane mode |
+| Video calling (ViLTE) | Carrier-dependent; `vtservice` runs, but the modem's operator table disables video on EE, as on stock |
 | eSIM | Works via OpenEUICC (profile downloaded and used for data) |
 | Rear/front camera, photo and video | Works. Leave Aperture's video stabilisation off: MediaTek EIS makes video exposure step/flicker |
 | FM radio, 76.0-108.0 MHz | Works; needs a wired headset as antenna |

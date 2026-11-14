@@ -1000,6 +1000,8 @@ vendor/lib64/libwifitest.so
 vendor/lib64/vendor.mediatek.hardware.lbs@1.0.so
 
 # Radio (missing from the tablet donor tree)
+system_ext/bin/vtservice
+system_ext/etc/init/init.vtservice.rc
 vendor/bin/hw/vtservice_hidl
 vendor/etc/init/hw/init.modem.rc
 vendor/etc/init/init.vtservice_hidl.rc
