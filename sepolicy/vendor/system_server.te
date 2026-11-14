@@ -1,0 +1,2 @@
+# InputReader probes max_brightness of every LED class device, including the Awinic haptic node
+dontaudit system_server sysfs_vibrator:file r_file_perms;

@@ -23,3 +23,5 @@
 # Vibrator (stock Awinic HAL, renamed to avoid clashing with hardware/mediatek's module)
 /(vendor|system/vendor)/bin/hw/android\.hardware\.vibrator-service\.mediatek-awinic u:object_r:hal_vibrator_default_exec:s0
 
+# TrustKernel keybox check (started by trustkernel.rc), same label as stock
+/(vendor|system/vendor)/bin/tee_check_keybox u:object_r:tee_exec:s0

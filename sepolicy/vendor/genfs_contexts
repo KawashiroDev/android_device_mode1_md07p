@@ -1,17 +1,22 @@
-# Health
-genfscon sysfs /devices/platform/soc/11017000.i2c/i2c-5/5-006a/power_supply/usb u:object_r:vendor_sysfs_usb_supply:s0
-genfscon sysfs /devices/platform/soc/11017000.i2c/i2c-5/5-006a/power_supply/xm_charger u:object_r:vendor_sysfs_usb_supply:s0
+# MD-07P sysfs labels (paths taken from the device; the yunluo entries this file had were for the
+# tablet's hardware and matched nothing here)
 
-# Wakeup nodes
-genfscon sysfs /devices/platform/soc/11017000.i2c/i2c-5/5-006a/power_supply/xm_charger/wakeup u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/platform/soc/14013000.dsi/wakeup u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/platform/soc/11017000.i2c/i2c-5/5-006a/power_supply/usb/wakeup u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/virtual/input/input4/wakeup u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/platform/soc/11e00000.i2c/i2c-0/0-0021/wakeup u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/platform/gpio-keys/wakeup u:object_r:sysfs_wakeup:s0
+# Power supplies not covered by sepolicy_vndr
+genfscon sysfs /devices/platform/soc/11017000.i2c/i2c-5/5-006a/power_supply u:object_r:sysfs_batteryinfo:s0
+genfscon sysfs /devices/platform/soc/11e00000.i2c/i2c-0/0-0030/power_supply u:object_r:sysfs_batteryinfo:s0
 
-# Extcon usb nodes
-genfscon sysfs /devices/platform/extcon_usb1 u:object_r:sysfs_extcon:s0
+# Wakeup nodes (wakeupNN numbering varies per boot, so label by prefix)
+genfscon sysfs /devices/platform/soc/11017000.i2c/i2c-5/5-006a/wakeup u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/soc/11017000.i2c/i2c-5/5-006a/power_supply/primary_chg/wakeup u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/soc/11e00000.i2c/i2c-0/0-0030/power_supply/wireless/wakeup u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/soc/11e00000.i2c/i2c-0/0-0041/wakeup u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/soc/1101a000.i2c/i2c-6/6-0058/wakeup u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/soc/11015000.i2c/i2c-3/3-0028/wakeup u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/soc/11015000.i2c/i2c-3/3-004e/wakeup u:object_r:sysfs_wakeup:s0
+
+# Notification LED (aw2016) and haptics (Awinic aw862xx)
+genfscon sysfs /devices/platform/soc/11f00000.i2c/i2c-7/7-0064/leds u:object_r:sysfs_leds:s0
+genfscon sysfs /devices/platform/soc/11f00000.i2c/i2c-7/7-005a/leds u:object_r:sysfs_vibrator:s0
 
 # Graphics
 genfscon sysfs /devices/platform/soc/13000000.mali u:object_r:sysfs_gpu:s0
