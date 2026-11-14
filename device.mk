@@ -318,7 +318,6 @@ PRODUCT_PACKAGES += \
     init.insmod.sh \
     init.insmod.mtk.cfg \
     init.connectivity.rc \
-    init.mi_thermald.rc \
     init.mt6789.rc \
     init.mt6789.power.rc \
     init.mt6789.usb.rc \

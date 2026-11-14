@@ -79,3 +79,7 @@ ro.fm.short_ana_sup=0
 ro.fm.rssi_th_l2=-102
 ro.fm.fake_chans=0
 
+# Needed on this GPU: without it the boot animation (and every BLASTBufferQueue client) can deadlock
+# in setMaxDequeuedBufferCount and nothing is ever drawn. Set here rather than vendor.prop because
+# the property has no vendor-settable SELinux context.
+ro.surface_flinger.max_acquired_buffers=2
