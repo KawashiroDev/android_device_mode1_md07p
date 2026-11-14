@@ -197,6 +197,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     FMRadio
 
+# eSIM (OpenEUICC privileged LPA; source in packages/apps/OpenEUICC via local manifest)
+PRODUCT_PACKAGES += \
+    OpenEUICC
+
 # Fingerprint
 PRODUCT_PACKAGES += \
     android.hardware.biometrics.fingerprint@2.1.vendor
