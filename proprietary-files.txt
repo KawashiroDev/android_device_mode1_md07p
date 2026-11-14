@@ -970,6 +970,11 @@ vendor/lib64/libforkexecwrap.so
 vendor/lib64/libifcutils_mtk.so
 vendor/lib64/libwifi-hal.so:vendor/lib64/libwifi-hal-mtk.so;FIX_SONAME
 vendor/lib64/vendor.mediatek.hardware.netdagent@1.0.so
+# Radio (missing from the tablet donor tree)
+vendor/bin/hw/vtservice_hidl
+vendor/etc/init/hw/init.modem.rc
+vendor/etc/init/init.vtservice_hidl.rc
+
 # Camera feature configs
 vendor/etc/hdr_config.yaml
 vendor/etc/hdr_isocfg.xml
