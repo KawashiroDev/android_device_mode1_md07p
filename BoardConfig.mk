@@ -56,7 +56,7 @@ BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 
 BOARD_KERNEL_CMDLINE += bootopt=64S3,32N2,64N2
 BOARD_KERNEL_CMDLINE += androidboot.init_fatal_reboot_target=recovery
-BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
+# SELinux: enforcing (permissive cmdline removed 2026-11-14 after live setenforce 1 test)
 
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_BASE := 0x3fff8000
