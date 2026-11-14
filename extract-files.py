@@ -47,6 +47,15 @@ blob_fixups: blob_fixups_user_type = {
         .replace_needed('libsink.so', 'libsink-mtk.so'),
     'system_ext/lib64/libsink-mtk.so': blob_fixup()
         .add_needed('libaudioclient_shim.so'),
+    (
+        'vendor/bin/hw/android.hardware.gnss-service.mediatek',
+        'vendor/lib64/hw/android.hardware.gnss-impl-mediatek.so',
+    ): blob_fixup()
+        .replace_needed('android.hardware.gnss-V1-ndk_platform.so', 'android.hardware.gnss-V1-ndk.so'),
+    'vendor/bin/mnld': blob_fixup()
+        .add_needed('libshim_sensors.so'),
+    'vendor/lib64/mt6789/libmnl.so': blob_fixup()
+        .add_needed('libcutils.so'),
     'vendor/bin/hw/mtkfusionrild': blob_fixup()
         .add_needed('libutils-v32.so'),
     'vendor/bin/hw/android.hardware.security.keymint-service.trustkernel': blob_fixup()
