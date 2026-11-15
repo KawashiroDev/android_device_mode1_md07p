@@ -234,12 +234,14 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf
 
-# NFC (stock SLM HIDL 1.2 HAL; blobs in proprietary-files.txt)
+# NFC (stock SLM HIDL 1.2 HAL) and SIM secure element (stock MediaTek HAL); blobs in proprietary-files.txt
 PRODUCT_PACKAGES += \
     android.hardware.nfc@1.0.vendor:64 \
     android.hardware.nfc@1.1.vendor:64 \
     android.hardware.nfc@1.2.vendor:64 \
     android.hardware.secure_element@1.0.vendor:64 \
+    android.hardware.secure_element@1.1.vendor:64 \
+    android.hardware.secure_element@1.2.vendor:64 \
     libchrome.vendor:64 \
     libshim_nfc \
     vendor.nxp.nxpese@1.0.vendor:64 \
@@ -248,7 +250,8 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.nfc.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.xml \
     frameworks/native/data/etc/android.hardware.nfc.hce.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.hce.xml \
-    frameworks/native/data/etc/android.hardware.nfc.hcef.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.hcef.xml
+    frameworks/native/data/etc/android.hardware.nfc.hcef.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.hcef.xml \
+    frameworks/native/data/etc/android.hardware.se.omapi.uicc.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.se.omapi.uicc.xml
 
 # Soundtrigger
 PRODUCT_PACKAGES += \

@@ -1076,3 +1076,7 @@ vendor/lib64/libnfc_slm.so
 vendor/lib64/ls_client.so
 vendor/lib64/nfc_nci_slm.so
 vendor/lib64/se_extn_client.so
+
+# Secure element: SIM (UICC) access for OMAPI, via the modem (stock MediaTek HIDL 1.2 HAL)
+vendor/bin/hw/android.hardware.secure_element@1.2-service-mediatek
+vendor/etc/init/android.hardware.secure_element@1.2-service-mediatek.rc
