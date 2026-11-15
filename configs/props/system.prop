@@ -65,11 +65,13 @@ ro.vendor.mtk_flv_playback_support=1
 ro.vendor.mtk_telephony_add_on_policy=0
 
 # FM radio (MT6631). LineageOS's FMRadio reads its tuning from ro.fm.* and rejects every
-# frequency without them. Japan wideband (76.0-108.0 MHz); stock's app covers 76.0-99.0.
-# Needs patches/packages_apps_FMRadio-0001-band-from-props.patch for the app's 76 MHz floor.
+# frequency without them. Range 64.0-108.0 MHz: the MT6631/6635 RX path (mt66xx_SetFreq) accepts
+# 64.00-108.00 MHz regardless of band, so this also covers OIRT (65.8-74) and Japan (76-95).
+# Stock's app covers 76.0-99.0.
+# Needs patches/packages_apps_FMRadio-0001-band-from-props.patch for the app's 87.5 MHz floor.
 ro.fm.chip=0x6631
 ro.fm.band=3
-ro.fm.low_band=760
+ro.fm.low_band=640
 ro.fm.high_band=1080
 ro.fm.seek_space=1
 ro.fm.max_scan_num=40

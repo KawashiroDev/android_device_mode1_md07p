@@ -1,3 +1,42 @@
+diff --git a/jni/fmr/fmr_core.cpp b/jni/fmr/fmr_core.cpp
+index 14a3953..f0ee140 100644
+--- a/jni/fmr/fmr_core.cpp
++++ b/jni/fmr/fmr_core.cpp
+@@ -492,7 +492,10 @@ int FMR_seek(int idx, int start_freq, int dir, int *ret_freq)
+     fm_u16 min_freq, max_freq;
+     int rssi;
+ 
+-    if ((start_freq < 7600) || (start_freq > 10800)) /*need replace by macro*/ {
++    // ro.fm.low_band/high_band (100 kHz units) widen the range when set
++    int lim_lo = fmr_data.cfg_data.low_band > 0 ? fmr_data.cfg_data.low_band * 10 : 7600;
++    int lim_hi = fmr_data.cfg_data.high_band > 0 ? fmr_data.cfg_data.high_band * 10 : 10800;
++    if ((start_freq < lim_lo) || (start_freq > lim_hi)) /*need replace by macro*/ {
+         LOGE("%s error start_freq: %d\n", __func__, start_freq);
+         return -ERR_INVALID_PARA;
+     }
+@@ -518,6 +521,11 @@ int FMR_seek(int idx, int start_freq, int dir, int *ret_freq)
+         min_freq = 8750;
+         max_freq = 10800;
+     }
++    if (fmr_data.cfg_data.low_band > 0 && fmr_data.cfg_data.high_band > fmr_data.cfg_data.low_band) {
++        min_freq = fmr_data.cfg_data.low_band * 10;
++        max_freq = fmr_data.cfg_data.high_band * 10;
++        band_channel_no = (max_freq - min_freq) / seek_space + 1;
++    }
+ 
+     fmr_data.scan_stop = fm_false;
+     LOGD("seek start freq %d band_channel_no=[%d], seek_space=%d band[%d - %d] dir=%d\n", start_freq, band_channel_no,seek_space,min_freq,max_freq,dir);
+@@ -759,6 +767,10 @@ int FMR_scan(int idx, uint16_t *scan_tbl, int *max_cnt)
+         Start_Freq = 8750;
+         NF_Space = 410/seek_space;
+     }
++    if (fmr_data.cfg_data.low_band > 0 && fmr_data.cfg_data.high_band > fmr_data.cfg_data.low_band) {
++        Start_Freq = fmr_data.cfg_data.low_band * 10;
++        band_channel_no = (fmr_data.cfg_data.high_band * 10 - Start_Freq) / seek_space + 1;
++    }
+ 
+     ret = FMR_scan_Channels(idx, scan_tbl, max_cnt, band_channel_no, Start_Freq, seek_space, NF_Space);
+ 
 diff --git a/src/com/android/fmradio/FmUtils.java b/src/com/android/fmradio/FmUtils.java
 index a24f9f8..48be4a1 100644
 --- a/src/com/android/fmradio/FmUtils.java
