@@ -12,6 +12,8 @@
 -->
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- Whether to show Smooth Display feature in Settings Options -->
-    <bool name="config_show_smooth_display">true</bool>
+    <!-- Refresh rate: offer a 60 / 90 / 120 Hz "peak refresh rate" list (like stock) instead of
+         the Smooth Display switch, which only toggles between 60 Hz and the highest rate -->
+    <bool name="config_show_smooth_display">false</bool>
+    <bool name="config_show_peak_refresh_rate_switch">true</bool>
 </resources>
