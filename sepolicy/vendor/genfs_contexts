@@ -23,3 +23,6 @@ genfscon sysfs /devices/platform/soc/13000000.mali u:object_r:sysfs_gpu:s0
 
 # Charging control (longer prefix than sepolicy_vndr's /mtk_battery_cmd entry)
 genfscon proc /mtk_battery_cmd/current_cmd u:object_r:vendor_proc_battery_cmd:s0
+
+# Qi receiver (CPS4022) attributes; the health HAL reads get_sys_mode to detect wireless charging
+genfscon sysfs /devices/platform/soc/11e00000.i2c/i2c-0/0-0030/get_sys_mode u:object_r:sysfs_wls_rx:s0

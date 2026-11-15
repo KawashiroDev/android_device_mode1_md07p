@@ -1,0 +1,21 @@
+//
+// Copyright (C) 2022 The LineageOS Project
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+
+// MediaTek health HAL (hardware/mediatek/aidl/health) plus Qi detection for the MD-07P.
+cc_binary {
+    name: "android.hardware.health-service.md07p",
+    defaults: [
+        "libhealth_aidl_impl_user",
+        "libhealth_aidl_charger_defaults",
+    ],
+    relative_install_path: "hw",
+    vendor: true,
+    init_rc: ["android.hardware.health-service.md07p.rc"],
+    vintf_fragments: ["android.hardware.health-service.md07p.xml"],
+    srcs: ["Health.cpp"],
+    static_libs: ["libhealth_aidl_impl"],
+    overrides: ["charger"],
+}

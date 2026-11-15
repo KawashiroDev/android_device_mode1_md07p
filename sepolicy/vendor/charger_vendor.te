@@ -4,3 +4,4 @@ r_dir_file(charger_vendor, sysfs_leds)
 
 allow charger_vendor { sysfs_leds sysfs_batteryinfo vendor_sysfs_usb_supply }:file rw_file_perms;
 
+allow charger_vendor sysfs_wls_rx:file r_file_perms;
