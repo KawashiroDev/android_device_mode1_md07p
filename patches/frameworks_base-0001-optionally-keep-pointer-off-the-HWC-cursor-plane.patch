@@ -1,5 +1,5 @@
 diff --git a/libs/input/SpriteController.cpp b/libs/input/SpriteController.cpp
-index 2968e5667..d37faf217 100644
+index 2968e5667..cb5350c51 100644
 --- a/libs/input/SpriteController.cpp
 +++ b/libs/input/SpriteController.cpp
 @@ -20,6 +20,7 @@
@@ -16,11 +16,21 @@ index 2968e5667..d37faf217 100644
  
 -    int32_t createFlags = ISurfaceComposerClient::eHidden | ISurfaceComposerClient::eCursorWindow;
 +    int32_t createFlags = ISurfaceComposerClient::eHidden;
-+    // Some hardware composers (e.g. MediaTek) render the dedicated cursor plane with wrong
-+    // colours/alpha; let such devices compose the pointer like any other layer.
++    // Some hardware composers (e.g. MediaTek) draw BGRA cursor-plane buffers with wrong
++    // colours/alpha; let such devices compose the pointer like any other (RGBA) layer.
 +    if (!property_get_bool("persist.sys.input.disable_hwc_cursor", false)) {
 +        createFlags |= ISurfaceComposerClient::eCursorWindow;
 +    }
      if (hideOnMirrored) {
          createFlags |= ISurfaceComposerClient::eSkipScreenshot;
      }
+@@ -512,7 +518,8 @@ uint32_t SpriteController::getBitmapFormat() {
+ }
+ 
+ PixelFormat SpriteController::getPixelFormat() {
+-    if (Surface::IsCursorPlaneCompatibilitySupported()) {
++    if (Surface::IsCursorPlaneCompatibilitySupported() &&
++        !property_get_bool("persist.sys.input.disable_hwc_cursor", false)) {
+         return PIXEL_FORMAT_BGRA_8888;
+     }
+ 
