@@ -1060,3 +1060,19 @@ vendor/etc/mfnr_config_front.yaml
 vendor/etc/mfnr_isocfg.xml
 vendor/etc/mfnr_isocfg_front.xml
 vendor/etc/sensor_feature_size.yaml
+
+# NFC (SLM SL6550 controller at /dev/slmnfc, stock NXP-derived HIDL 1.2 HAL;
+# vendor.nxp.nxpnfc@2.0 and vendor.nxp.nxpese@1.0 are built from hardware/nxp, see device.mk)
+vendor/bin/hw/android.hardware.nfc@1.2-service.slm
+vendor/etc/init/android.hardware.nfc@1.2-service.slm.rc
+vendor/etc/init/init.hal_mgvi_64_armv82.nfc.rc:vendor/etc/init/init.slm.nfc.rc
+vendor/etc/libnfc-nci.conf
+vendor/etc/libnfc-nxp.conf
+vendor/etc/libnfc-slm-560.conf
+vendor/etc/libnfc-slm-567.conf
+vendor/etc/libnfc-slm.conf
+vendor/lib64/jcos_client.so
+vendor/lib64/libnfc_slm.so
+vendor/lib64/ls_client.so
+vendor/lib64/nfc_nci_slm.so
+vendor/lib64/se_extn_client.so

@@ -25,7 +25,7 @@ configuration. SELinux is enforcing.
 | Vibration (Awinic haptics) | Works |
 | Charging control incl. bypass | Works. Status still reads "Charging" while paused (MediaTek driver) |
 | Wireless (Qi) charging | Works; reported as wireless (stock reports it as USB) |
-| NFC | **Not supported.** The SLM NFC controller is present (`/dev/slmnfc`) but its HAL and NFC stack aren't ported yet |
+| NFC | Works (card/tag reading tested). Stock SLM SL6550 HAL; contactless payment untested |
 
 ### Known issues
 

@@ -1,0 +1,11 @@
+<compatibility-matrix version="9.0" type="framework">
+    <!-- NXP extension registered by the stock SLM NFC HAL -->
+    <hal format="hidl">
+        <name>vendor.nxp.nxpnfc</name>
+        <version>2.0</version>
+        <interface>
+            <name>INxpNfc</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+</compatibility-matrix>

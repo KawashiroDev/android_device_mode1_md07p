@@ -25,3 +25,7 @@
 # TrustKernel keybox check (started by trustkernel.rc), same label as stock
 /(vendor|system/vendor)/bin/tee_check_keybox u:object_r:tee_exec:s0
 /(vendor|system/vendor)/bin/hw/android\.hardware\.health-service\.md07p u:object_r:hal_health_default_exec:s0
+
+# NFC (SLM SL6550)
+/dev/slmnfc u:object_r:nfc_device:s0
+/(vendor|system/vendor)/bin/hw/android\.hardware\.nfc@1\.2-service\.slm u:object_r:hal_nfc_default_exec:s0

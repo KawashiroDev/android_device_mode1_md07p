@@ -58,6 +58,8 @@ blob_fixups: blob_fixups_user_type = {
         .regex_replace('android.hardware.vibrator-service.mediatek', 'android.hardware.vibrator-service.mediatek-awinic'),
     'vendor/bin/hw/android.hardware.vibrator-service.mediatek-awinic': blob_fixup()
         .replace_needed('android.hardware.vibrator-V2-ndk_platform.so', 'android.hardware.vibrator-V2-ndk.so'),
+    'vendor/lib64/nfc_nci_slm.so': blob_fixup()
+        .add_needed('libshim_nfc.so'),
     'vendor/bin/mnld': blob_fixup()
         .add_needed('libshim_sensors.so'),
     'vendor/lib64/hw/fingerprint.default.so': blob_fixup()

@@ -1,0 +1,2 @@
+# Stock SLM NFC HAL also registers NXP's INxpNfc extension
+allow hal_nfc_default nxpnfc_hwservice:hwservice_manager { add find };
