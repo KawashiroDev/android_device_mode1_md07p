@@ -284,3 +284,7 @@ bluetooth.profile.sap.server.enabled=true
 # TEE / DRM (stock uses TrustKernel, Widevine L3)
 ro.vendor.mtk_trustkernel_tee_support=1
 ro.vendor.mtk_widevine_drm_l3_support=1
+
+# Fingerprint: disable MicroArray navigation (sensor gestures). It captures an image in the TEE every
+# ~38 ms while a finger rests on the sensor, flooding the logs and crackling audio. Nothing uses it.
+persist.vendor.fp.enable.navi=0
