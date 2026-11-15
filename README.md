@@ -17,7 +17,7 @@ configuration. SELinux is enforcing.
 | Video calling (ViLTE) | Carrier-dependent; `vtservice` runs, but the modem's operator table disables video on EE, as on stock |
 | eSIM | Works via OpenEUICC (profile downloaded and used for data) |
 | Rear/front camera, photo and video | Works. Leave Aperture's video stabilisation off: MediaTek EIS makes video exposure step/flicker |
-| FM radio, 76.0-108.0 MHz | Works; needs a wired headset as antenna |
+| FM radio, 64.0-108.0 MHz | Works; needs a wired headset as antenna |
 | GPS | HAL and mnld run; outdoor fix **untested** |
 | Fingerprint (MicroArray) | Works |
 | Sensors, autorotate | Works |
@@ -56,7 +56,7 @@ a directory laid out like the device's partitions (`system/`, `vendor/`, `system
 `patches/apply.sh` applies:
 
 - `packages_apps_FMRadio-0001-band-from-props.patch`: FMRadio reads its band from
-  `ro.fm.low_band`/`ro.fm.high_band` instead of a hard-coded 87.5 MHz floor.
+  `ro.fm.low_band`/`ro.fm.high_band` (app and JNI seek/scan) instead of hard-coded 87.5/76 MHz floors.
 - `ImsService/` (applied by `extract-files.py`, not `apply.sh`): MediaTek's IMS app uses
   `mediatek-ims-base` as a shared library instead of expecting it on the boot classpath,
   and its runtime-registered receivers are marked exported.
