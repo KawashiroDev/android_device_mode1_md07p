@@ -1,0 +1,26 @@
+diff --git a/libs/input/SpriteController.cpp b/libs/input/SpriteController.cpp
+index 2968e5667..d37faf217 100644
+--- a/libs/input/SpriteController.cpp
++++ b/libs/input/SpriteController.cpp
+@@ -20,6 +20,7 @@
+ #include "SpriteController.h"
+ 
+ #include <android-base/logging.h>
++#include <cutils/properties.h>
+ #include <gui/Surface.h>
+ #include <utils/String8.h>
+ 
+@@ -350,7 +351,12 @@ sp<SurfaceControl> SpriteController::obtainSurface(int32_t width, int32_t height
+         LOG(ERROR) << "Failed to get the parent surface for pointers on display " << displayId;
+     }
+ 
+-    int32_t createFlags = ISurfaceComposerClient::eHidden | ISurfaceComposerClient::eCursorWindow;
++    int32_t createFlags = ISurfaceComposerClient::eHidden;
++    // Some hardware composers (e.g. MediaTek) render the dedicated cursor plane with wrong
++    // colours/alpha; let such devices compose the pointer like any other layer.
++    if (!property_get_bool("persist.sys.input.disable_hwc_cursor", false)) {
++        createFlags |= ISurfaceComposerClient::eCursorWindow;
++    }
+     if (hideOnMirrored) {
+         createFlags |= ISurfaceComposerClient::eSkipScreenshot;
+     }

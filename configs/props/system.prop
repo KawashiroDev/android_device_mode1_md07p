@@ -89,3 +89,7 @@ ro.surface_flinger.max_acquired_buffers=2
 # Wi-Fi calling: the modem runs the ePDG, so let IMS voice over Wi-Fi count as voice service
 # (patches/frameworks_opt_telephony-0001)
 ro.telephony.vowifi_voice_service=true
+
+# Mouse pointer: MediaTek HWC draws the cursor plane with wrong colours/alpha (red, see-through);
+# compose the pointer normally instead (patches/frameworks_base-0001)
+persist.sys.input.disable_hwc_cursor=true

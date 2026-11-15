@@ -73,6 +73,10 @@ a directory laid out like the device's partitions (`system/`, `vendor/`, `system
   the stock 5.10 kernel rejects, so `clatd` (464XLAT) and the hotspot's `dnsmasq` never started.
   On IPv6-only mobile data (e.g. EE) Android restarted `clatd` every ~0.6 s, keeping the phone
   awake and breaking IPv4. The patch falls back to walking `/proc/self/fd`.
+- `frameworks_base-0001-optionally-keep-pointer-off-the-HWC-cursor-plane.patch`: MediaTek's
+  hwcomposer draws the HWC cursor plane with wrong colours and alpha (a USB mouse pointer turns
+  red or see-through). With `persist.sys.input.disable_hwc_cursor=true` the pointer is composed
+  like any other layer.
 
 The build needs about 32 GB of RAM (more is better; Soong analysis is the peak).
 
