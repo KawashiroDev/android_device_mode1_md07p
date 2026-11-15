@@ -68,6 +68,11 @@ a directory laid out like the device's partitions (`system/`, `vendor/`, `system
   the "<carrier> Wi-Fi Calling" network name, falling back to the SIM's carrier name).
 - `prebuilts_openeuicc-deps-0001-build-against-sdk-current.patch`: OpenEUICC's dependency
   modules target the next Android SDK; build them against `current`.
+- `bionic-0001-posix_spawn-CLOEXEC_DEFAULT-fallback-for-pre-5.11-kernels.patch`:
+  `POSIX_SPAWN_CLOEXEC_DEFAULT` relies on `close_range(CLOSE_RANGE_CLOEXEC)` (Linux 5.11+), which
+  the stock 5.10 kernel rejects, so `clatd` (464XLAT) and the hotspot's `dnsmasq` never started.
+  On IPv6-only mobile data (e.g. EE) Android restarted `clatd` every ~0.6 s, keeping the phone
+  awake and breaking IPv4. The patch falls back to walking `/proc/self/fd`.
 
 The build needs about 32 GB of RAM (more is better; Soong analysis is the peak).
 
