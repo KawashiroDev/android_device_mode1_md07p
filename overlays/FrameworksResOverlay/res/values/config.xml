@@ -36,28 +36,30 @@
     <integer-array name="config_autoBrightnessLcdBacklightValues">
         <item>1</item>
         <item>1</item>
-        <item>10</item>
-        <item>28</item>
-        <item>46</item>
-        <item>60</item>
-        <item>76</item>
-        <item>98</item>
-        <item>116</item>
-        <item>132</item>
-        <item>148</item>
-        <item>168</item>
-        <item>195</item>
-        <item>210</item>
-        <item>232</item>
+        <item>13</item>
+        <item>37</item>
+        <item>61</item>
+        <item>80</item>
+        <item>101</item>
+        <item>131</item>
+        <item>155</item>
+        <item>176</item>
+        <item>198</item>
+        <item>224</item>
+        <item>255</item>
+        <item>255</item>
+        <item>255</item>
         <item>255</item>
         <item>255</item>
         <item>255</item>
     </integer-array>
 
-    <!-- Stock brightness defaults -->
-    <item name="config_screenBrightnessSettingDefaultFloat" format="float" type="dimen">0.44</item>
-    <item name="config_screenBrightnessSettingMaximumFloat" format="float" type="dimen">0.748</item>
-    <integer name="config_screenBrightnessDoze">5</integer>
+    <!-- Brightness. The lights HAL scales levels to the stock backlight ceiling (191/255)
+         unless brightness boost is on, so 1.0 here is the stock maximum. The values below
+         are the stock ones divided by 191/255 so the cap-on brightness matches stock. -->
+    <item name="config_screenBrightnessSettingDefaultFloat" format="float" type="dimen">0.59</item>
+    <item name="config_screenBrightnessSettingMaximumFloat" format="float" type="dimen">1.0</item>
+    <integer name="config_screenBrightnessDoze">7</integer>
 
 
     <!-- Boolean indicating whether the HWC setColorTransform function can be performed efficiently
@@ -178,11 +180,11 @@
     -->
     <bool name="config_enableWifiDisplay">true</bool>
 
-    <!-- Backlight: the MTK leds driver (leds-mtk.ko) caps every level at 191/255 (hw 1533 of 2047).
-         Its stock floor of 35/255 is patched out (see the kernel repo README), so the slider runs
-         from level 1 to the cap. Float = (level - 1) / 254. -->
+    <!-- Backlight: stock leds-mtk.ko floors levels at 35/255 and caps them at 191/255 (hw 1533 of
+         2047). Both are patched out of the module (see the kernel repo README); the lights HAL
+         applies the 191 cap instead unless Brightness boost is on. Float = (level - 1) / 254. -->
     <item name="config_screenBrightnessSettingMinimumFloat" format="float" type="dimen">0.0</item>
-    <item name="config_screenBrightnessDimFloat" format="float" type="dimen">0.05</item>
+    <item name="config_screenBrightnessDimFloat" format="float" type="dimen">0.067</item>
 
     <!-- Notification LED: aw2016 RGB LED (red/green/blue in /sys/class/leds) -->
     <bool name="config_intrusiveNotificationLed">true</bool>

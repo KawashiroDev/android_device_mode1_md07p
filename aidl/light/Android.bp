@@ -1,0 +1,33 @@
+//
+// SPDX-FileCopyrightText: The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
+// hardware/lineage/interfaces/light plus an optional backlight cap for the MD-07P:
+// unless persist.sys.md07p.brightness_boost is set, backlight levels are scaled to
+// the stock ceiling (191/255) that the stock kernel driver used to enforce.
+cc_binary {
+    name: "android.hardware.light-service.md07p",
+    defaults: ["hidl_defaults"],
+    vendor: true,
+    relative_install_path: "hw",
+    init_rc: ["android.hardware.light-service.md07p.rc"],
+    vintf_fragments: ["android.hardware.light-service.md07p.xml"],
+    srcs: [
+        "devices/BacklightDevice.cpp",
+        "devices/LedDevice.cpp",
+        "devices/RgbLedDevice.cpp",
+        "models/Color.cpp",
+        "models/State.cpp",
+        "Devices.cpp",
+        "Lights.cpp",
+        "Utils.cpp",
+        "service.cpp",
+    ],
+    local_include_dirs: ["."],
+    shared_libs: [
+        "libbase",
+        "libbinder_ndk",
+        "android.hardware.light-V2-ndk",
+    ],
+}

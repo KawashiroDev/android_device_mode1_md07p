@@ -136,7 +136,11 @@ PRODUCT_PACKAGES += \
 
 # Light
 PRODUCT_PACKAGES += \
-    android.hardware.light-service.lineage
+    android.hardware.light-service.md07p
+
+# Device settings (Settings > Display > Brightness boost)
+PRODUCT_PACKAGES += \
+    MD07PParts
 
 # Lineage Health
 PRODUCT_PACKAGES += \

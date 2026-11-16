@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <string name="app_name">Device settings</string>
+
+    <string name="brightness_boost_title">Brightness boost</string>
+    <string name="brightness_boost_summary">Let the screen use the full backlight power</string>
+    <string name="brightness_boost_switch">Use brightness boost</string>
+    <string name="brightness_boost_footer">The stock firmware limits the backlight to 75% of its maximum. Brightness boost removes that limit, making every brightness level about a third brighter.\n\nThe screen uses more power and gets warmer at high brightness. If the phone gets hot, it dims the screen automatically.</string>
+</resources>

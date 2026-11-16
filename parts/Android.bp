@@ -1,0 +1,28 @@
+//
+// SPDX-FileCopyrightText: The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
+// Device settings for the MD-07P, injected into the Settings app.
+android_app {
+    name: "MD07PParts",
+    defaults: ["SettingsLibDefaults"],
+
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+
+    platform_apis: true,
+    certificate: "platform",
+    system_ext_specific: true,
+
+    static_libs: [
+        "SettingsLibCollapsingToolbarBaseActivity",
+        "SettingsLibFooterPreference",
+        "SettingsLibMainSwitchPreference",
+        "androidx.preference_preference",
+    ],
+
+    optimize: {
+        enabled: false,
+    },
+}
