@@ -66,6 +66,15 @@ blob_fixups: blob_fixups_user_type = {
         .fix_soname(),
     'vendor/lib64/mt6789/libmnl.so': blob_fixup()
         .add_needed('libcutils.so'),
+    # decideAEManualPline(): EIS mode 1/2 switches AE to manual pline 16/17
+    # (table 36), whose exposures are not 50 Hz anti-banding safe: video
+    # pulses at 10 Hz (100 Hz light vs 30 fps) under UK mains lighting.
+    # Skip the EIS branch so AE keeps the normal (anti-banded) video pline:
+    #   b.eq <pline 16> -> nop,  b.ne <next> -> b <next>
+    'vendor/lib64/mt6789/libcamera.customae.so': blob_fixup()
+        .binary_regex_replace(
+            rb'\x1f\x05\x00\x71\xa0\x00\x00\x54\x1f\x09\x00\x71\xa1\x00\x00\x54',
+            b'\x1f\x05\x00\x71\x1f\x20\x03\xd5\x1f\x09\x00\x71\x05\x00\x00\x14'),
     'vendor/bin/hw/mtkfusionrild': blob_fixup()
         .add_needed('libutils-v32.so'),
     'vendor/bin/hw/android.hardware.security.keymint-service.trustkernel': blob_fixup()
