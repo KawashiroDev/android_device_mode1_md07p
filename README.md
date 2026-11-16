@@ -16,9 +16,10 @@ configuration. SELinux is enforcing.
 | VoLTE (HD calls), Wi-Fi calling | Works (EE UK), incl. Wi-Fi calls in airplane mode |
 | Video calling (ViLTE) | Carrier-dependent; `vtservice` runs, but the modem's operator table disables video on EE, as on stock |
 | eSIM | Works via OpenEUICC (profile downloaded and used for data) |
-| Rear/front camera, photo and video | Works. Leave Aperture's video stabilisation off: MediaTek EIS makes video exposure step/flicker |
+| Rear/front camera, photo and video | Works, incl. video stabilisation (EIS). Continuous autofocus rarely refocuses mid-recording (stock tuning); tap to focus |
+| Flashlight (incl. quick settings tile) | Works |
 | FM radio, 64.0-108.0 MHz | Works; needs a wired headset as antenna |
-| GPS | HAL and mnld run; outdoor fix **untested** |
+| GPS | Works (satellites tracked) |
 | Fingerprint (MicroArray) | Works |
 | Sensors, autorotate | Works |
 | Notification/battery LED | Works |
@@ -33,6 +34,8 @@ configuration. SELinux is enforcing.
   CarrierSettings normally does). `overlays/CarrierConfigOverlay` turns both on for every
   carrier on this device; carriers without them simply reject IMS registration and calls
   use 2G/3G.
+- The 64 MP main camera (IMX682, quad-Bayer) always ran in its 16 MP binned mode in testing;
+  64 MP shots taken indoors are upscaled 16 MP images. Use 16 MP unless testing in daylight.
 
 ## Building
 
@@ -79,6 +82,11 @@ a directory laid out like the device's partitions (`system/`, `vendor/`, `system
   hwcomposer draws the BGRA buffers Android uses for the HWC cursor plane with wrong colours and
   alpha (a USB mouse pointer turns red or see-through). With
   `persist.sys.input.disable_hwc_cursor=true` the pointer is an ordinary RGBA layer instead.
+
+`extract-files.py` also patches `vendor/lib64/mt6789/libcamera.customae.so`: with video
+stabilisation on, the stock library switches auto-exposure to an exposure table that ignores
+50 Hz anti-banding, so video pulsed at 10 Hz under mains lighting. The fixup keeps the normal
+video exposure table; stabilisation itself is unchanged.
 
 The build needs about 32 GB of RAM (more is better; Soong analysis is the peak).
 
