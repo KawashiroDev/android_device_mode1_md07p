@@ -28,3 +28,8 @@ service mnld /vendor/bin/mnld
     capabilities WAKE_ALARM
     group gps inet misc sdcard_rw sdcard_r media_rw system radio wakelock
     socket mnld stream 660 gps system
+
+# GPS kernel drivers (from stock init.gps_drv.rc / init.gps_pwr.rc)
+on property:vendor.connsys.driver.ready=yes
+    insmod /vendor/lib/modules/${ro.vendor.gps.chrdev}.ko
+    insmod /vendor/lib/modules/gps_pwr.ko

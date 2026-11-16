@@ -183,6 +183,7 @@ ro.vendor.mtk_external_sim_only_slots=0
 ro.vendor.mtk_f2fs_enable=1
 ro.vendor.mtk_fast_charging_support=1
 ro.vendor.mtk_gps_support=1
+ro.vendor.gps.chrdev=gps_drv_stp
 ro.vendor.mtk_hifiaudio_support=1
 ro.vendor.mtk_log_hide_gps=1
 ro.vendor.mtk_md_world_mode_support=1
