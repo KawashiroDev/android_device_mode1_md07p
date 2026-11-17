@@ -1,0 +1,2 @@
+# init.mt6789.rc triggers on Settings > System > GPU boost
+get_prop(vendor_init, md07p_gpu_prop)

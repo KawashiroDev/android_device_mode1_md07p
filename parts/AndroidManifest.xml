@@ -34,5 +34,25 @@
                 android:name="com.android.settings.summary"
                 android:resource="@string/brightness_boost_summary" />
         </activity>
+
+        <!-- Settings > System > GPU boost -->
+        <activity
+            android:name=".GpuBoostActivity"
+            android:exported="true"
+            android:label="@string/gpu_boost_title">
+            <intent-filter>
+                <action android:name="com.android.settings.action.IA_SETTINGS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.system" />
+            <meta-data
+                android:name="com.android.settings.profile"
+                android:value="primary_profile_only" />
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/gpu_boost_summary" />
+        </activity>
     </application>
 </manifest>

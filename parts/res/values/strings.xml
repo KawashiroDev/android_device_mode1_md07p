@@ -10,4 +10,9 @@
     <string name="brightness_boost_summary">Let the screen use the full backlight power</string>
     <string name="brightness_boost_switch">Use brightness boost</string>
     <string name="brightness_boost_footer">The stock firmware limits the backlight to 75% of its maximum. Brightness boost removes that limit, making every brightness level about a third brighter.\n\nThe screen uses more power and gets warmer at high brightness. If the phone gets hot, it dims the screen automatically.</string>
+
+    <string name="gpu_boost_title">GPU boost</string>
+    <string name="gpu_boost_summary">Let the GPU run at up to 1100 MHz</string>
+    <string name="gpu_boost_switch">Use GPU boost</string>
+    <string name="gpu_boost_footer">This phone\'s GPU is limited to 1003 MHz. GPU boost raises the limit to 1100 MHz, the top speed MediaTek rates for this chip, at the voltages the chip is calibrated for. Graphics-heavy games and emulators run up to about 10% faster.\n\nThe phone uses more power and gets warmer while the GPU is busy. If it gets hot, it slows the GPU down automatically.</string>
 </resources>

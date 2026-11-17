@@ -11,6 +11,7 @@ configuration. SELinux is enforcing.
 | Feature | Status |
 | --- | --- |
 | Display, touch, brightness, 60/90/120 Hz | Works. Settings > Display > *Brightness boost* lifts the stock 75 % backlight cap |
+| GPU (Mali-G57 MC2) | Works. Settings > System > *GPU boost* raises the GPU limit from 1003 to 1100 MHz (MediaTek's calibrated steps and voltages; off by default) |
 | Wi-Fi, Bluetooth (incl. A2DP) | Works |
 | Calls, SMS, mobile data | Works (tested on EE UK): earpiece, speakerphone, in-call proximity |
 | VoLTE (HD calls), Wi-Fi calling | Works (EE UK), incl. Wi-Fi calls in airplane mode |

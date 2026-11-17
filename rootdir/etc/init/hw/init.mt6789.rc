@@ -626,3 +626,16 @@ on boot
 on boot
     chown system system /proc/mtk_battery_cmd/current_cmd
     chmod 0660 /proc/mtk_battery_cmd/current_cmd
+
+# GPU boost (opt-in, Settings > System > GPU boost). The patched mtk_gpufreq_mt6789.ko
+# exposes the full signed-off table up to 1100 MHz (stock AVS voltages). Cap the devfreq
+# max_freq at the stock 1003 MHz unless persist.sys.md07p.gpu_boost is set. Thermal
+# throttling uses its own devfreq cooling request, so it still applies on top.
+on property:vendor.all.modules.ready=1
+    write /sys/class/devfreq/13000000.mali/max_freq 1003000000
+
+on property:vendor.all.modules.ready=1 && property:persist.sys.md07p.gpu_boost=1
+    write /sys/class/devfreq/13000000.mali/max_freq 1100000000
+
+on property:vendor.all.modules.ready=1 && property:persist.sys.md07p.gpu_boost=0
+    write /sys/class/devfreq/13000000.mali/max_freq 1003000000

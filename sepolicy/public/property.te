@@ -1,2 +1,4 @@
 # Settings > Display > Brightness boost (MD07PParts), read by the vendor lights HAL
 system_public_prop(md07p_display_prop)
+# Settings > System > GPU boost (MD07PParts), read by init (init.mt6789.rc)
+system_public_prop(md07p_gpu_prop)

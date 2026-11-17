@@ -321,7 +321,7 @@
       "PowerHint": "INTERACTION",
       "Node": "GpuPwrLevel",
       "Duration": 0,
-      "Value": "7"
+      "Value": "14"
     },
     {
       "PowerHint": "INTERACTION",
@@ -345,7 +345,7 @@
       "PowerHint": "LAUNCH",
       "Node": "GpuPwrLevel",
       "Duration": 0,
-      "Value": "0"
+      "Value": "7"
     },
     {
       "PowerHint": "LAUNCH",
@@ -375,7 +375,7 @@
       "PowerHint": "FIXED_PERFORMANCE",
       "Node": "GpuPwrLevel",
       "Duration": 0,
-      "Value": "0"
+      "Value": "7"
     },
     {
       "PowerHint": "FIXED_PERFORMANCE",
@@ -423,7 +423,7 @@
       "PowerHint": "EXPENSIVE_RENDERING",
       "Node": "GpuPwrLevel",
       "Duration": 0,
-      "Value": "0"
+      "Value": "7"
     },
     {
       "PowerHint": "ML_ACC",
