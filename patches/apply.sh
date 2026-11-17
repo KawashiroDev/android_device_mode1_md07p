@@ -20,5 +20,6 @@ apply frameworks/opt/telephony "$here/frameworks_opt_telephony-0001-trust-IMS-vo
 apply prebuilts/openeuicc-deps "$here/prebuilts_openeuicc-deps-0001-build-against-sdk-current.patch"
 apply bionic "$here/bionic-0001-posix_spawn-CLOEXEC_DEFAULT-fallback-for-pre-5.11-kernels.patch"
 apply frameworks/base "$here/frameworks_base-0001-optionally-keep-pointer-off-the-HWC-cursor-plane.patch"
+apply packages/apps/OpenEUICC "$here/packages_apps_OpenEUICC-0001-dont-read-euiccinfo2-in-validity-check.patch"
 # OpenEUICC's submodules (lpac, cJSON) are not always fetched by repo sync-s
 git -C "$top/packages/apps/OpenEUICC" submodule update --init --depth 1

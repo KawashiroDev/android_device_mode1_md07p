@@ -1,0 +1,20 @@
+diff --git a/libs/lpac-jni/src/main/java/net/typeblog/lpac_jni/impl/LocalProfileAssistantImpl.kt b/libs/lpac-jni/src/main/java/net/typeblog/lpac_jni/impl/LocalProfileAssistantImpl.kt
+index 91c572e..7bbaed9 100644
+--- a/libs/lpac-jni/src/main/java/net/typeblog/lpac_jni/impl/LocalProfileAssistantImpl.kt
++++ b/libs/lpac-jni/src/main/java/net/typeblog/lpac_jni/impl/LocalProfileAssistantImpl.kt
+@@ -103,10 +103,12 @@ class LocalProfileAssistantImpl(
+ 
+     override val valid: Boolean
+         get() = !finalized && apduInterface.valid && try {
+-            // If we can read both eID and euiccInfo2 properly, we are likely looking at
+-            // a valid LocalProfileAssistant
++            // If we can read the eID properly, we are likely looking at a valid
++            // LocalProfileAssistant. euiccInfo2 is already read once in init.
++            // Do NOT read euiccInfo2 here: this runs before every operation, and some
++            // eUICCs leak ~137 bytes of NVM per GetEuiccInfo2 until reset, then answer
++            // 6A84 / 6985 to every ES10 command (profiles vanish until reboot).
+             eID
+-            euiccInfo2!!
+             true
+         } catch (e: Exception) {
+             false
