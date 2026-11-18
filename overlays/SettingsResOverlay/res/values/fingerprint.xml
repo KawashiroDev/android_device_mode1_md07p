@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-License-Identifier: Apache-2.0
+-->
+
+<!-- Fingerprint sensor location: the MD-07P sensor is in the right-hand power button, not on the
+     back. Like stock (MtkSettings), keep the generic "find sensor" screen but show the stock side
+     illustration (drawable-nodpi/fingerprint_sensor_location.png, taken from stock Settings).
+     config_is_side_fps (Lineage) switches the find-sensor and touch-dialog text to the translated
+     "side of your phone" strings. The illustration already marks the sensor, so the AOSP pulsing
+     dot (positioned for a rear sensor) is hidden by giving it a zero radius. -->
+<resources>
+    <bool name="config_is_side_fps">true</bool>
+
+    <dimen name="fingerprint_dot_radius">0dp</dimen>
+    <dimen name="fingerprint_pulse_radius">0dp</dimen>
+</resources>
