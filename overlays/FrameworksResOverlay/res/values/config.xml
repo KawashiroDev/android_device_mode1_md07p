@@ -194,4 +194,9 @@
     <string-array name="config_biometric_sensors" translatable="false">
         <item>0:2:15</item>
     </string-array>
+
+    <!-- Display cutout (front camera hole): same path as stock framework-res. A 36dp-wide,
+         36dp-deep shape at the top centre, so the status bar keeps clear of the camera. -->
+    <string name="config_mainBuiltInDisplayCutout" translatable="false">M 0,0 L -18, 0 L -13.540446283, 15.0595537175 C -10.0582133885, 22.0178661152 -5.6, 23.5 -1.0, 36.0 L 1.0, 36.0 C 5.6, 23.5 10.0582133885, 22.0178661152 13.540446283, 15.0595537175 L 18, 0 Z @dp</string>
+    <string name="config_mainBuiltInDisplayCutoutRectApproximation" translatable="false">@string/config_mainBuiltInDisplayCutout</string>
 </resources>
