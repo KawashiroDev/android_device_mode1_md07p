@@ -16,3 +16,17 @@ cc_library_shared {
     srcs: ["nfc_shim.cpp"],
     vendor: true,
 }
+
+cc_library_shared {
+    name: "libshim_vtsource",
+    srcs: ["vtsource_shim.cpp"],
+    shared_libs: [
+        "libgui",
+        "liblog",
+        "libui",
+        "libutils",
+    ],
+    system_ext_specific: true,
+    // libsource.so is 64-bit only, and the layout constants are for LP64.
+    compile_multilib: "64",
+}

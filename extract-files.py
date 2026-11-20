@@ -45,6 +45,17 @@ patchelf_version = "0_17_2"
 blob_fixups: blob_fixups_user_type = {
     'system_ext/priv-app/ImsService/ImsService.apk': blob_fixup()
         .apktool_patch('patches/ImsService/'),
+    # Built against A15 libgui: BufferItem grew in A16 and IGraphicBufferConsumer stopped being
+    # a binder interface. Route its BufferItem ctor/dtor and BufferQueue::createBufferQueue
+    # through libshim_vtsource (same-length rename "android" -> "md07pvt" of the imports).
+    'system_ext/lib64/libsource.so': blob_fixup()
+        .add_needed('libshim_vtsource.so')
+        .binary_regex_replace(b'_ZN7android10BufferItemC1Ev', b'_ZN7md07pvt10BufferItemC1Ev')
+        .binary_regex_replace(b'_ZN7android10BufferItemD1Ev', b'_ZN7md07pvt10BufferItemD1Ev')
+        .binary_regex_replace(
+            b'_ZN7android11BufferQueue17createBufferQueueE',
+            b'_ZN7md07pvt11BufferQueue17createBufferQueueE',
+        ),
     'system_ext/lib64/libimsma.so': blob_fixup()
         .replace_needed('libsink.so', 'libsink-mtk.so'),
     'system_ext/lib64/libsink-mtk.so': blob_fixup()

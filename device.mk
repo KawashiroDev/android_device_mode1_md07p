@@ -248,6 +248,7 @@ PRODUCT_PACKAGES += \
     android.hardware.secure_element@1.2.vendor:64 \
     libchrome.vendor:64 \
     libshim_nfc \
+    libshim_vtsource \
     vendor.nxp.nxpese@1.0.vendor:64 \
     vendor.nxp.nxpnfc@2.0.vendor:64
 
