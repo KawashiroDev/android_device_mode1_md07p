@@ -643,3 +643,16 @@ on property:vendor.all.modules.ready=1 && property:persist.sys.md07p.gpu_boost=1
 
 on property:vendor.all.modules.ready=1 && property:persist.sys.md07p.gpu_boost=0
     write /sys/class/devfreq/13000000.mali/max_freq 1003000000
+
+# Brightness boost: MediaTek AAL (pq HAL) scales every backlight level by ~0.64 (2047 -> 1312),
+# a factor compiled into its closed tuning. With boost on, bypass AAL so the full PWM range
+# (leds-mtk / leds-mtk-pwm 1535 clamps patched to 2047) is reachable. The pq service only reads
+# the bypass property at start, hence the restart. Waits for boot_completed so pq is never
+# restarted during early boot; the persisted bypass value is already right at that point.
+on property:sys.boot_completed=1 && property:persist.sys.md07p.brightness_boost=1
+    setprop persist.vendor.sys.pq.disp.aal.bypass 1
+    restart pq-2-2
+
+on property:sys.boot_completed=1 && property:persist.sys.md07p.brightness_boost=0
+    setprop persist.vendor.sys.pq.disp.aal.bypass 0
+    restart pq-2-2
