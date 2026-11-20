@@ -1,0 +1,4 @@
+# The MediaTek VT libraries probe ~190 vendor.*/persist.vendor.* debug and tuning properties
+# that fall under vendor_default_prop. None of them is set on this device, so the reads only
+# ever return the defaults, and coredomain may not read vendor_default_prop (neverallow).
+dontaudit vtservice vendor_default_prop:file { read open getattr map };
