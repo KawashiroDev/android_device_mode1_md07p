@@ -11,6 +11,7 @@
 
 #include <android-base/logging.h>
 #include <fstream>
+#include <unistd.h>
 #include <thread>
 
 namespace aidl {
@@ -75,6 +76,11 @@ LedDevice::LedDevice(std::string name)
                          std::ifstream(mBasePath + kPauseLoNode).good() &&
                          std::ifstream(mBasePath + kPauseHiNode).good() &&
                          std::ifstream(mBasePath + kRampStepMsNode).good();
+
+    // The blink node is chmod 0200 at boot so it is never picked as a breath node,
+    // but it must still be writable to clear the driver's blink flag.
+    mHasHwBlinkFlag = mSupportsTimedUpstream && !mSupportsTimedQcom && mBreathNode.empty() &&
+                      access((mBasePath + kBlinkNode).c_str(), W_OK) == 0;
 }
 
 bool LedDevice::isOk() const {
@@ -159,12 +165,26 @@ static std::string getScaledDutyPercent(uint8_t brightness) {
 
 bool LedDevice::setBrightness(uint8_t value, LightMode mode, uint32_t flashOnMs,
                               uint32_t flashOffMs) {
+    bool leftHwBlink = false;
+
     // Disable current blinking
     if (mode != LightMode::TIMED_QCOM && supportsMode(LightMode::TIMED_QCOM)) {
         writeToFile(mBasePath + kBlinkNode, 0);
     }
     if (mode != LightMode::TIMED_UPSTREAM && supportsMode(LightMode::TIMED_UPSTREAM)) {
         writeToFile(mBasePath + kTriggerNode, "none");
+        // aw2016 applies blink and brightness from two separate async work items, and
+        // the blink work reads a flag that only "blink" or a non-zero blink_set changes.
+        // After timer -> none, a still-pending blink work could run after the
+        // brightness work and re-enable pattern mode at full brightness, leaving the LED
+        // flashing forever. Clear the flag, and let that work finish before a
+        // following brightness write so the two cannot be reordered.
+        if (mHasHwBlinkFlag && mHwBlinkArmed) {
+            writeToFile(mBasePath + kBlinkNode, 0);
+            std::this_thread::sleep_for(std::chrono::milliseconds(20));
+            mHwBlinkArmed = false;
+            leftHwBlink = true;
+        }
     }
     if (mode != LightMode::BREATH && supportsMode(LightMode::BREATH)) {
         writeToFile(mBasePath + kBrightnessNode, 0);
@@ -194,7 +214,12 @@ bool LedDevice::setBrightness(uint8_t value, LightMode mode, uint32_t flashOnMs,
             break;
         }
         case LightMode::TIMED_UPSTREAM: {
+            if (value > 0) mHwBlinkArmed = true;
             bool ok = writeToFile(mBasePath + kTriggerNode, value > 0 ? "timer" : "none");
+            if (value == 0 && mHasHwBlinkFlag && mHwBlinkArmed) {
+                writeToFile(mBasePath + kBlinkNode, 0);
+                mHwBlinkArmed = false;
+            }
             if (ok && value > 0) {
                 using namespace std::chrono_literals;
                 auto retries = 20;
@@ -218,7 +243,27 @@ bool LedDevice::setBrightness(uint8_t value, LightMode mode, uint32_t flashOnMs,
             break;
         }
         case LightMode::STATIC: {
-            return writeToFile(mBasePath + kBrightnessNode, scaleBrightness(value, mMaxBrightness));
+            const uint32_t scaled = scaleBrightness(value, mMaxBrightness);
+            bool ok = writeToFile(mBasePath + kBrightnessNode, scaled);
+            if (leftHwBlink && value > 0) {
+                // Removing the timer trigger makes the LED core defer a "blink disable ->
+                // brightness 0" work item; a brightness write that lands before it runs
+                // only updates the blink brightness and is then overwritten with 0.
+                // Rewrite until the value reads back twice in a row.
+                using namespace std::chrono_literals;
+                int stable = 0;
+                for (int i = 0; i < 15 && stable < 2; i++) {
+                    std::this_thread::sleep_for(10ms);
+                    uint32_t cur = 0;
+                    if (readFromFile(mBasePath + kBrightnessNode, cur) && cur == scaled) {
+                        stable++;
+                    } else {
+                        stable = 0;
+                        ok = writeToFile(mBasePath + kBrightnessNode, scaled);
+                    }
+                }
+            }
+            return ok;
             break;
         }
         default: {

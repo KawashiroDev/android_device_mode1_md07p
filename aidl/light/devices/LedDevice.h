@@ -99,6 +99,11 @@ class LedDevice : public IDevice {
     std::string mBreathNode;
     bool mSupportsTimedUpstream;
     bool mSupportsTimedQcom;
+    // aw2016: write-only hardware "blink" flag that the timer trigger sets through
+    // blink_set but trigger=none never clears (see setBrightness).
+    bool mHasHwBlinkFlag;
+    // Assume a stale timer blink is armed until we have cleared it once.
+    bool mHwBlinkArmed = true;
 };
 
 }  // namespace light
