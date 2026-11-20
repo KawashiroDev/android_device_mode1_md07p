@@ -28,6 +28,7 @@ patches=(
     "bionic bionic-0001-posix_spawn-CLOEXEC_DEFAULT-fallback-for-pre-5.11-kernels.patch"
     "frameworks/base frameworks_base-0001-optionally-keep-pointer-off-the-HWC-cursor-plane.patch"
     "packages/apps/OpenEUICC packages_apps_OpenEUICC-0001-dont-read-euiccinfo2-in-validity-check.patch"
+    "external/wpa_supplicant_8 external_wpa_supplicant_8-0001-wpa-version-3-only-with-sae-offload.patch"
 )
 
 apply() {  # <project dir> <patch>

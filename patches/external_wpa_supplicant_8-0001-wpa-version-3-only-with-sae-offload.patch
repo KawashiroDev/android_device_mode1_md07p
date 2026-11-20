@@ -1,0 +1,40 @@
+From 06101fc82e048390e2cdff8d6620c5304755335f Mon Sep 17 00:00:00 2001
+From: KawashiroDev <27027367+KawashiroDev@users.noreply.github.com>
+Date: Fri, 20 Nov 2026 19:56:40 +0000
+Subject: [PATCH] nl80211: only use WPA_VERSION_3 for SAE with driver SAE
+ offload
+
+MediaTek gen4m drivers do SAE through external auth and map an
+unknown wpa_versions value to 'no WPA', so with WPA_VERSION_3 they
+send a bare auth frame (rejected with status 13), retry as open
+system and get deauthenticated. Older wpa_supplicant sent
+WPA_VERSION_2 here, which these drivers handle.
+
+Change-Id: Ic7daab36e9b79363aec9410bb15d0585ed37d07d
+---
+ src/drivers/driver_nl80211.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/src/drivers/driver_nl80211.c b/src/drivers/driver_nl80211.c
+index f8cc9e1..872dd56 100644
+--- a/src/drivers/driver_nl80211.c
++++ b/src/drivers/driver_nl80211.c
+@@ -7015,8 +7015,15 @@ static int nl80211_connect_common(struct wpa_driver_nl80211_data *drv,
+ 			 * NL80211_ATTR_SAE_PASSWORD is related and was added
+ 			 * at the same time as NL80211_WPA_VERSION_3.
+ 			 */
++			/*
++			 * Only drivers that do SAE themselves need to see
++			 * WPA_VERSION_3. External-auth drivers such as MediaTek
++			 * gen4m do not know it and fall back to open auth.
++			 */
+ 			if (nl80211_attr_supported(drv,
+ 						   NL80211_ATTR_SAE_PASSWORD) &&
++			    (drv->capa.flags2 &
++			     WPA_DRIVER_FLAGS2_SAE_OFFLOAD_STA) &&
+ 			    wpa_key_mgmt_sae(params->key_mgmt_suite))
+ 				ver |= NL80211_WPA_VERSION_3;
+ 			else
+-- 
+2.47.3
+
