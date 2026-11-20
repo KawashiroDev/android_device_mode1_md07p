@@ -8,6 +8,7 @@
 #define LOG_TAG "Lights"
 
 #include <Utils.h>
+#include <devices/LedDevice.h>
 
 #include <android-base/logging.h>
 
@@ -129,6 +130,13 @@ binder_status_t Lights::dump(int fd, const char** /*args*/, uint32_t /*numArgs*/
     dprintf(fd, "\n");
 
     return STATUS_OK;
+}
+
+void Lights::setBreathe(bool enabled) {
+    if (LedDevice::sBreathe.exchange(enabled) == enabled) return;
+    LOG(INFO) << "Notification LED breathing " << (enabled ? "enabled" : "disabled");
+    // Re-apply the current state: the LEDs are still running the other effect.
+    updateNotificationColor();
 }
 
 void Lights::updateNotificationColor() {

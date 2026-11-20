@@ -341,6 +341,7 @@ PRODUCT_PACKAGES += \
 
 # Overlays (Lineage)
 PRODUCT_PACKAGES += \
+    LineagePartsOverlayMD07P \
     LineageSDKOverlayMD07P \
     PowerOffAlarmOverlayMD07P
 

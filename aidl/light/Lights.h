@@ -26,6 +26,7 @@ class Lights : public BnLights {
     binder_status_t dump(int fd, const char** args, uint32_t numArgs) override;
 
     void setBrightnessBoost(bool enabled) { mDevices.setBrightnessBoost(enabled); }
+    void setBreathe(bool enabled);
 
   private:
     std::vector<HwLight> mLights;

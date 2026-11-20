@@ -608,6 +608,10 @@ on early-boot
     chmod 0200 /sys/class/leds/red/blink
     chmod 0200 /sys/class/leds/green/blink
     chmod 0200 /sys/class/leds/blue/blink
+    # Hardware breathing pattern (rise hold fall off), used when the breathing toggle is on.
+    chown system system /sys/class/leds/red/led_time
+    chown system system /sys/class/leds/green/led_time
+    chown system system /sys/class/leds/blue/led_time
 
 # Vibrator (Awinic aw862xx): let the stock HAL (runs as system) drive it, as stock does.
 # (Stock also chmods the directory itself to 0666; that's left out because it would drop the

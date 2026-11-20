@@ -42,6 +42,18 @@ static const std::string kTriggerNode = "trigger";
 static const std::string kDelayOffNode = "delay_off";
 static const std::string kDelayOnNode = "delay_on";
 
+static const std::string kLedTimeNode = "led_time";
+
+// aw2016 rise/hold/fall/off step lengths in ms, indexed by the values written to led_time.
+static constexpr uint32_t kAw2016TimeMs[] = {0,    130,  260,  380,  510,  770,  1040, 1600,
+                                             2100, 2600, 3100, 4200, 5200, 6200, 7300, 8300};
+// Slow pulse: ~1.6 s fade in, 260 ms hold, ~1.6 s fade out.
+static constexpr int kBreathRiseIdx = 7;
+static constexpr int kBreathHoldIdx = 2;
+static constexpr int kBreathFallIdx = 7;
+
+std::atomic<bool> LedDevice::sBreathe{false};
+
 static constexpr int kRampSteps = 8;
 static constexpr int kRampMaxStepDurationMs = 50;
 
@@ -81,6 +93,43 @@ LedDevice::LedDevice(std::string name)
     // but it must still be writable to clear the driver's blink flag.
     mHasHwBlinkFlag = mSupportsTimedUpstream && !mSupportsTimedQcom && mBreathNode.empty() &&
                       access((mBasePath + kBlinkNode).c_str(), W_OK) == 0;
+    mHasLedTime = mHasHwBlinkFlag && access((mBasePath + kLedTimeNode).c_str(), W_OK) == 0;
+}
+
+static int nearestAw2016TimeIdx(uint32_t ms) {
+    int best = 1;
+    for (int i = 1; i < static_cast<int>(std::size(kAw2016TimeMs)); i++) {
+        uint32_t d = ms > kAw2016TimeMs[i] ? ms - kAw2016TimeMs[i] : kAw2016TimeMs[i] - ms;
+        uint32_t bd = ms > kAw2016TimeMs[best] ? ms - kAw2016TimeMs[best]
+                                                : kAw2016TimeMs[best] - ms;
+        if (d < bd) best = i;
+    }
+    return best;
+}
+
+bool LedDevice::setBreathing(uint8_t value, uint32_t flashOffMs) {
+    using namespace std::chrono_literals;
+    if (mTimerActive) {
+        // Drop the timer trigger first and let the LED core's deferred "blink disable ->
+        // brightness 0" work run, or it would switch the new pattern off again.
+        writeToFile(mBasePath + kTriggerNode, "none");
+        writeToFile(mBasePath + kBlinkNode, 0);
+        std::this_thread::sleep_for(30ms);
+        mTimerActive = false;
+    }
+
+    if (value == 0) {
+        bool ok = writeToFile(mBasePath + kBlinkNode, 0);
+        mHwBlinkArmed = false;
+        return ok;
+    }
+
+    // Writing led_time stores the times, sets the blink flag and starts the pattern.
+    mHwBlinkArmed = true;
+    std::string times = std::to_string(kBreathRiseIdx) + " " + std::to_string(kBreathHoldIdx) +
+                        " " + std::to_string(kBreathFallIdx) + " " +
+                        std::to_string(nearestAw2016TimeIdx(flashOffMs));
+    return writeToFile(mBasePath + kLedTimeNode, times);
 }
 
 bool LedDevice::isOk() const {
@@ -171,8 +220,13 @@ bool LedDevice::setBrightness(uint8_t value, LightMode mode, uint32_t flashOnMs,
     if (mode != LightMode::TIMED_QCOM && supportsMode(LightMode::TIMED_QCOM)) {
         writeToFile(mBasePath + kBlinkNode, 0);
     }
+    if (mode == LightMode::TIMED_UPSTREAM && mHasLedTime && sBreathe) {
+        return setBreathing(value, flashOffMs);
+    }
+
     if (mode != LightMode::TIMED_UPSTREAM && supportsMode(LightMode::TIMED_UPSTREAM)) {
         writeToFile(mBasePath + kTriggerNode, "none");
+        mTimerActive = false;
         // aw2016 applies blink and brightness from two separate async work items, and
         // the blink work reads a flag that only "blink" or a non-zero blink_set changes.
         // After timer -> none, a still-pending blink work could run after the
@@ -216,6 +270,7 @@ bool LedDevice::setBrightness(uint8_t value, LightMode mode, uint32_t flashOnMs,
         case LightMode::TIMED_UPSTREAM: {
             if (value > 0) mHwBlinkArmed = true;
             bool ok = writeToFile(mBasePath + kTriggerNode, value > 0 ? "timer" : "none");
+            mTimerActive = value > 0;
             if (value == 0 && mHasHwBlinkFlag && mHwBlinkArmed) {
                 writeToFile(mBasePath + kBlinkNode, 0);
                 mHwBlinkArmed = false;

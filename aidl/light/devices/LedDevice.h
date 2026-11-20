@@ -7,6 +7,7 @@
 
 #include <models/IDevice.h>
 
+#include <atomic>
 #include <cstdint>
 #include <string>
 
@@ -91,7 +92,15 @@ class LedDevice : public IDevice {
      */
     void setIdx(int idx);
 
+    /**
+     * Use the aw2016 hardware breathing pattern instead of the timer trigger for timed
+     * (flashing) states. Shared by all LED devices.
+     */
+    static std::atomic<bool> sBreathe;
+
   private:
+    bool setBreathing(uint8_t value, uint32_t flashOffMs);
+
     std::string mName;
     int mIdx;
     std::string mBasePath;
@@ -104,6 +113,10 @@ class LedDevice : public IDevice {
     bool mHasHwBlinkFlag;
     // Assume a stale timer blink is armed until we have cleared it once.
     bool mHwBlinkArmed = true;
+    // aw2016 "led_time" node: four indices into the chip's time table.
+    bool mHasLedTime = false;
+    // The timer trigger is (or may be) set.
+    bool mTimerActive = true;
 };
 
 }  // namespace light
