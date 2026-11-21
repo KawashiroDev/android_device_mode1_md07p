@@ -9,7 +9,7 @@
     <string name="brightness_boost_title">Brightness boost</string>
     <string name="brightness_boost_summary">Let the screen use the full backlight power</string>
     <string name="brightness_boost_switch">Use brightness boost</string>
-    <string name="brightness_boost_footer">The stock firmware limits the backlight to 75% of its maximum. Brightness boost removes that limit, making every brightness level about a third brighter.\n\nThe screen uses more power and gets warmer at high brightness. If the phone gets hot, it dims the screen automatically.</string>
+    <string name="brightness_boost_footer">The stock firmware runs the backlight at no more than about two-thirds of its full power. Brightness boost removes those limits, so at full brightness the screen is about 50% brighter, and every other brightness level is brighter too.\n\nWhile it\'s on, MediaTek\'s display tuning (AAL) is turned off. The screen uses more power and gets warmer at high brightness. If the phone gets hot, it dims the screen automatically.</string>
 
     <string name="gpu_boost_title">GPU boost</string>
     <string name="gpu_boost_summary">Let the GPU run at up to 1100 MHz</string>
