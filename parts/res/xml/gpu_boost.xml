@@ -10,6 +10,11 @@
         android:key="gpu_boost"
         android:title="@string/gpu_boost_switch" />
 
+    <CheckBoxPreference
+        android:key="gpu_boost_keep"
+        android:title="@string/gpu_boost_keep_title"
+        android:summary="@string/gpu_boost_keep_summary" />
+
     <com.android.settingslib.widget.FooterPreference
         android:key="gpu_boost_footer"
         android:title="@string/gpu_boost_footer"

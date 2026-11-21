@@ -2,3 +2,5 @@
 persist.sys.md07p.brightness_boost u:object_r:md07p_display_prop:s0 exact bool
 persist.sys.lineage.led_breathe u:object_r:md07p_display_prop:s0 exact bool
 persist.sys.md07p.gpu_boost u:object_r:md07p_gpu_prop:s0 exact bool
+persist.sys.md07p.gpu_boost_keep u:object_r:md07p_gpu_prop:s0 exact bool
+sys.md07p.gpu_boost u:object_r:md07p_gpu_prop:s0 exact bool

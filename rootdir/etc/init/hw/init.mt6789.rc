@@ -633,15 +633,22 @@ on boot
 
 # GPU boost (opt-in, Settings > System > GPU boost). The patched mtk_gpufreq_mt6789.ko
 # exposes the full signed-off table up to 1100 MHz (stock AVS voltages). Cap the devfreq
-# max_freq at the stock 1003 MHz unless persist.sys.md07p.gpu_boost is set. Thermal
-# throttling uses its own devfreq cooling request, so it still applies on top.
+# max_freq at the stock 1003 MHz unless sys.md07p.gpu_boost is set. Thermal throttling uses
+# its own devfreq cooling request, so it still applies on top.
+# sys.md07p.gpu_boost is the current state (unset = off). It is turned on at boot when
+# persist.sys.md07p.gpu_boost is set, which the Settings page only does while "Keep on after
+# restart" is checked and boost is on, so the trigger firing again at runtime is harmless.
+# (Vendor init can't trigger on ro.persistent_properties.ready, hence this form.)
 on property:vendor.all.modules.ready=1
     write /sys/class/devfreq/13000000.mali/max_freq 1003000000
 
 on property:vendor.all.modules.ready=1 && property:persist.sys.md07p.gpu_boost=1
+    setprop sys.md07p.gpu_boost 1
+
+on property:vendor.all.modules.ready=1 && property:sys.md07p.gpu_boost=1
     write /sys/class/devfreq/13000000.mali/max_freq 1100000000
 
-on property:vendor.all.modules.ready=1 && property:persist.sys.md07p.gpu_boost=0
+on property:vendor.all.modules.ready=1 && property:sys.md07p.gpu_boost=0
     write /sys/class/devfreq/13000000.mali/max_freq 1003000000
 
 # Brightness boost: MediaTek AAL (pq HAL) scales every backlight level by ~0.64 (2047 -> 1312),

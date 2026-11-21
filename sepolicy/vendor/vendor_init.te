@@ -1,4 +1,4 @@
 # init.mt6789.rc triggers on Settings > System > GPU boost
-get_prop(vendor_init, md07p_gpu_prop)
+set_prop(vendor_init, md07p_gpu_prop)
 # init.mt6789.rc bypasses AAL while Settings > Display > Brightness boost is on
 get_prop(vendor_init, md07p_display_prop)
